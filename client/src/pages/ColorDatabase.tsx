@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import ColorFilters from "@/components/ColorFilters";
 import ColorGrid from "@/components/ColorGrid";
 import ThemeToggle from "@/components/ThemeToggle";
+import ImportExport from "@/components/ImportExport";
 import { Palette } from "lucide-react";
 import type { Color, HueFilter, KeywordFilter } from "@shared/schema";
 
@@ -81,6 +82,7 @@ export default function ColorDatabase() {
               <span className="text-border">•</span>
               <span>Click any color to copy</span>
             </div>
+            <ImportExport />
             <ThemeToggle />
           </div>
         </div>

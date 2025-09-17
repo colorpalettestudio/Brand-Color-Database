@@ -9,6 +9,7 @@ export interface IStorage {
   getColorsByKeyword(keyword: string): Promise<Color[]>;
   searchColors(query: string): Promise<Color[]>;
   createColor(color: InsertColor): Promise<Color>;
+  replaceAllColors(colors: InsertColor[]): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -134,6 +135,15 @@ export class MemStorage implements IStorage {
     const color: Color = { ...insertColor, id };
     this.colors.set(id, color);
     return color;
+  }
+
+  async replaceAllColors(insertColors: InsertColor[]): Promise<void> {
+    this.colors.clear();
+    insertColors.forEach(colorData => {
+      const id = randomUUID();
+      const color: Color = { ...colorData, id };
+      this.colors.set(id, color);
+    });
   }
 }
 
