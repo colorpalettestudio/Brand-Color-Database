@@ -8,7 +8,7 @@
   {"name": "Pearl", "hex": "#F8F6F0", "hue": "white", "keywords": ["light-neutrals", "cream"]},
   {"name": "Linen", "hex": "#FAF0E6", "hue": "white", "keywords": ["light-neutrals", "beige"]},
   {"name": "Seashell", "hex": "#FFF5EE", "hue": "white", "keywords": ["light-neutrals", "cream"]},
-  {"name": "Almond", "hex": "#EFDECD", "hue": "neutral", "keywords": ["light-neutrals", "beige"]},
+  {"name": "Almond", "hex": "#EFDECD", "hue": "white", "keywords": ["light-neutrals", "beige"]},
   
   {"name": "Jet Black", "hex": "#0A0A0A", "hue": "black", "keywords": ["dark-neutrals", "black"]},
   {"name": "Charcoal", "hex": "#36454F", "hue": "black", "keywords": ["dark-neutrals", "charcoal"]},
@@ -171,7 +171,7 @@
   {"name": "Aquamarine", "hex": "#7FFFD4", "hue": "blue", "keywords": ["jewel"]},
   {"name": "Moonstone", "hex": "#3AA8C1", "hue": "blue", "keywords": ["jewel"]},
   {"name": "Rose Quartz", "hex": "#F7CAC9", "hue": "pink", "keywords": ["pastel"]},
-  {"name": "Clear Quartz", "hex": "#F8F8FF", "hue": "neutral", "keywords": ["light-neutrals"]},
+  {"name": "Clear Quartz", "hex": "#F8F8FF", "hue": "white", "keywords": ["light-neutrals"]},
   {"name": "Smoky Quartz", "hex": "#72654A", "hue": "neutral", "keywords": ["muted"]},
   {"name": "Black Onyx", "hex": "#353839", "hue": "neutral", "keywords": ["dark-neutrals"]},
   
@@ -192,8 +192,8 @@
   {"name": "Dusk Purple", "hex": "#B19CD9", "hue": "purple", "keywords": ["muted"]},
   {"name": "Twilight Blue", "hex": "#5D4E75", "hue": "blue", "keywords": ["muted"]},
   {"name": "Midnight Blue", "hex": "#191970", "hue": "blue", "keywords": ["dark-neutrals"]},
-  {"name": "Starlight", "hex": "#F5F5DC", "hue": "neutral", "keywords": ["light-neutrals"]},
-  {"name": "Moonbeam", "hex": "#F0F8FF", "hue": "neutral", "keywords": ["light-neutrals"]},
+  {"name": "Starlight", "hex": "#F5F5DC", "hue": "white", "keywords": ["light-neutrals"]},
+  {"name": "Moonbeam", "hex": "#F0F8FF", "hue": "white", "keywords": ["light-neutrals"]},
   {"name": "Sunbeam", "hex": "#FFE135", "hue": "yellow", "keywords": ["vibrant"]},
   {"name": "Aurora", "hex": "#79F8AA", "hue": "green", "keywords": ["vibrant"]},
   
@@ -203,8 +203,8 @@
   {"name": "Daffodil", "hex": "#FFFF31", "hue": "yellow", "keywords": ["vibrant"]},
   {"name": "Tulip", "hex": "#FF878D", "hue": "pink", "keywords": ["vibrant"]},
   {"name": "Rose", "hex": "#FF007F", "hue": "pink", "keywords": ["vibrant"]},
-  {"name": "Lily", "hex": "#FFFFFF", "hue": "neutral", "keywords": ["light-neutrals"]},
+  {"name": "Lily", "hex": "#FFFFFF", "hue": "white", "keywords": ["light-neutrals"]},
   {"name": "Jasmine", "hex": "#F8DE7E", "hue": "yellow", "keywords": ["pastel"]},
-  {"name": "Gardenia", "hex": "#FDF6E3", "hue": "neutral", "keywords": ["light-neutrals"]},
-  {"name": "Magnolia", "hex": "#F2E8D5", "hue": "neutral", "keywords": ["light-neutrals"]}
+  {"name": "Gardenia", "hex": "#FDF6E3", "hue": "white", "keywords": ["light-neutrals"]},
+  {"name": "Magnolia", "hex": "#F2E8D5", "hue": "white", "keywords": ["light-neutrals"]}
 ]

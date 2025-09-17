@@ -90,13 +90,15 @@ export default function ColorFilters({
                 size="sm"
                 onClick={() => onHueChange(option.value)}
                 className={cn(
-                  "relative overflow-hidden",
+                  "relative",
                   selectedHue === option.value && "bg-foreground text-background hover:bg-foreground/90"
                 )}
                 data-testid={`filter-hue-${option.value}`}
               >
-                <div className={cn("absolute inset-0", option.color, "opacity-20")} />
-                <span className="relative z-10">{option.label}</span>
+                {selectedHue !== option.value && (
+                  <div className={cn("absolute left-0 top-1 bottom-1 w-1 rounded-r-sm", option.color)} />
+                )}
+                {option.label}
               </Button>
             ))}
           </div>
