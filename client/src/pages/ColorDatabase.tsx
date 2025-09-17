@@ -6,12 +6,17 @@ import ThemeToggle from "@/components/ThemeToggle";
 import ImportExport from "@/components/ImportExport";
 import { Palette } from "lucide-react";
 import type { Color, HueFilter, KeywordFilter } from "@shared/schema";
+import { hexToHsl } from "@shared/schema";
 
 export default function ColorDatabase() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedHue, setSelectedHue] = useState<HueFilter>("all");
   const [selectedKeyword, setSelectedKeyword] = useState<KeywordFilter>("all");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  
+  // Slider filter state
+  const [sliderMode, setSliderMode] = useState<"lightness" | "saturation">("lightness");
+  const [sliderRange, setSliderRange] = useState<[number, number]>([0, 100]);
 
   // Debounce search query
   useEffect(() => {
@@ -52,6 +57,15 @@ export default function ColorDatabase() {
       filtered = filtered.filter(color => color.keywords.includes(selectedKeyword));
     }
 
+    // Apply slider filter (only if not at full range)
+    if (sliderRange[0] > 0 || sliderRange[1] < 100) {
+      filtered = filtered.filter(color => {
+        const { s, l } = hexToHsl(color.hex);
+        const value = sliderMode === "lightness" ? l : s;
+        return value >= sliderRange[0] && value <= sliderRange[1];
+      });
+    }
+
     // Sort in ROYGBIV pattern if showing all colors and all styles
     if (selectedHue === "all" && selectedKeyword === "all" && !debouncedSearch) {
       const roygbivOrder = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "neutral", "white", "black"];
@@ -72,7 +86,7 @@ export default function ColorDatabase() {
     }
 
     return filtered;
-  }, [allColors, debouncedSearch, selectedHue, selectedKeyword]);
+  }, [allColors, debouncedSearch, selectedHue, selectedKeyword, sliderMode, sliderRange]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -117,6 +131,10 @@ export default function ColorDatabase() {
             onHueChange={setSelectedHue}
             selectedKeyword={selectedKeyword}
             onKeywordChange={setSelectedKeyword}
+            sliderMode={sliderMode}
+            onSliderModeChange={setSliderMode}
+            sliderRange={sliderRange}
+            onSliderRangeChange={setSliderRange}
           />
         </div>
       </div>

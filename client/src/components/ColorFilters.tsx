@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, X } from "lucide-react";
+import { Slider } from "@/components/ui/slider";
+import { Search, X, Sun, Droplets } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { HueFilter, KeywordFilter } from "@shared/schema";
 
@@ -11,6 +12,10 @@ interface ColorFiltersProps {
   onHueChange: (hue: HueFilter) => void;
   selectedKeyword: KeywordFilter;
   onKeywordChange: (keyword: KeywordFilter) => void;
+  sliderMode: "lightness" | "saturation";
+  onSliderModeChange: (mode: "lightness" | "saturation") => void;
+  sliderRange: [number, number];
+  onSliderRangeChange: (range: [number, number]) => void;
 }
 
 const hueOptions: { value: HueFilter; label: string; color: string }[] = [
@@ -45,6 +50,10 @@ export default function ColorFilters({
   onHueChange,
   selectedKeyword,
   onKeywordChange,
+  sliderMode,
+  onSliderModeChange,
+  sliderRange,
+  onSliderRangeChange,
 }: ColorFiltersProps) {
   const clearSearch = () => onSearchChange("");
 
@@ -118,10 +127,61 @@ export default function ColorFilters({
             ))}
           </div>
         </div>
+
+        {/* Lightness/Saturation Slider */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-medium text-foreground">
+              Filter by {sliderMode === "lightness" ? "Lightness" : "Saturation"}
+            </h3>
+            <div className="flex rounded-lg bg-muted p-1">
+              <Button
+                variant={sliderMode === "lightness" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => onSliderModeChange("lightness")}
+                className="h-8 px-3 text-xs"
+                data-testid="button-slider-lightness"
+              >
+                <Sun className="w-3 h-3 mr-1" />
+                Lightness
+              </Button>
+              <Button
+                variant={sliderMode === "saturation" ? "default" : "ghost"}
+                size="sm"
+                onClick={() => onSliderModeChange("saturation")}
+                className="h-8 px-3 text-xs"
+                data-testid="button-slider-saturation"
+              >
+                <Droplets className="w-3 h-3 mr-1" />
+                Saturation
+              </Button>
+            </div>
+          </div>
+          
+          <div className="space-y-2">
+            <Slider
+              value={sliderRange}
+              onValueChange={onSliderRangeChange}
+              max={100}
+              min={0}
+              step={1}
+              className="w-full"
+              data-testid="slider-range"
+            />
+            <div className="flex justify-between text-xs text-muted-foreground">
+              <span>
+                {sliderMode === "lightness" ? "Darkest" : "Muted"} ({sliderRange[0]}%)
+              </span>
+              <span>
+                {sliderMode === "lightness" ? "Lightest" : "Vibrant"} ({sliderRange[1]}%)
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Active Filters Summary */}
-      {(selectedHue !== "all" || selectedKeyword !== "all" || searchQuery) && (
+      {(selectedHue !== "all" || selectedKeyword !== "all" || searchQuery || sliderRange[0] > 0 || sliderRange[1] < 100) && (
         <div className="flex items-center gap-2 pt-2 border-t border-border">
           <span className="text-sm text-muted-foreground">Active filters:</span>
           {selectedHue !== "all" && (
@@ -132,6 +192,11 @@ export default function ColorFilters({
           {selectedKeyword !== "all" && (
             <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
               {keywordOptions.find(k => k.value === selectedKeyword)?.label}
+            </span>
+          )}
+          {(sliderRange[0] > 0 || sliderRange[1] < 100) && (
+            <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
+              {sliderMode === "lightness" ? "Lightness" : "Saturation"}: {sliderRange[0]}%-{sliderRange[1]}%
             </span>
           )}
           {searchQuery && (
