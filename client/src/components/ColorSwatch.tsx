@@ -111,19 +111,6 @@ export default function ColorSwatch({ color, size = "md", showInfo = true }: Col
           <p className={cn("font-mono text-muted-foreground", textSizeClasses[size])} data-testid={`hex-${color.id}`}>
             {color.hex}
           </p>
-          {color.keywords.length > 0 && (
-            <div className="flex flex-wrap gap-1">
-              {color.keywords.slice(0, 2).map((keyword) => (
-                <span
-                  key={keyword}
-                  className="inline-flex items-center rounded-full bg-secondary px-2 py-0.5 text-xs text-secondary-foreground"
-                  data-testid={`keyword-${keyword}`}
-                >
-                  {keyword}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
       )}
     </div>

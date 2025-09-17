@@ -82,7 +82,10 @@ export default function ColorFilters({
                 variant={selectedHue === option.value ? "default" : "outline"}
                 size="sm"
                 onClick={() => onHueChange(option.value)}
-                className="relative overflow-hidden"
+                className={cn(
+                  "relative overflow-hidden",
+                  selectedHue === option.value && "bg-foreground text-background hover:bg-foreground/90"
+                )}
                 data-testid={`filter-hue-${option.value}`}
               >
                 <div className={cn("absolute inset-0", option.color, "opacity-20")} />
@@ -102,6 +105,9 @@ export default function ColorFilters({
                 variant={selectedKeyword === option.value ? "default" : "outline"}
                 size="sm"
                 onClick={() => onKeywordChange(option.value)}
+                className={cn(
+                  selectedKeyword === option.value && "bg-foreground text-background hover:bg-foreground/90"
+                )}
                 data-testid={`filter-keyword-${option.value}`}
               >
                 {option.label}

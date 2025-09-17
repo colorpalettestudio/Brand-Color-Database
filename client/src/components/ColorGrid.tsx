@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import ColorSwatch from "./ColorSwatch";
 import { Button } from "@/components/ui/button";
 import { Grid, List } from "lucide-react";
@@ -12,16 +12,6 @@ interface ColorGridProps {
 
 export default function ColorGrid({ colors, isLoading = false }: ColorGridProps) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [itemsPerPage] = useState(50);
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const paginatedColors = useMemo(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    return colors.slice(startIndex, endIndex);
-  }, [colors, currentPage, itemsPerPage]);
-
-  const totalPages = Math.ceil(colors.length / itemsPerPage);
 
   const gridClasses = {
     grid: "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4",
@@ -71,11 +61,6 @@ export default function ColorGrid({ colors, isLoading = false }: ColorGridProps)
           <h2 className="text-lg font-semibold text-foreground" data-testid="text-color-count">
             {colors.length} colors
           </h2>
-          {totalPages > 1 && (
-            <p className="text-sm text-muted-foreground">
-              Showing {(currentPage - 1) * itemsPerPage + 1}-{Math.min(currentPage * itemsPerPage, colors.length)} of {colors.length}
-            </p>
-          )}
         </div>
         
         {/* View mode toggle */}
@@ -102,8 +87,8 @@ export default function ColorGrid({ colors, isLoading = false }: ColorGridProps)
       </div>
 
       {/* Color grid */}
-      <div className={cn(gridClasses[viewMode], "mb-8")} data-testid="grid-colors">
-        {paginatedColors.map((color) => (
+      <div className={cn(gridClasses[viewMode])} data-testid="grid-colors">
+        {colors.map((color) => (
           <ColorSwatch
             key={color.id}
             color={color}
@@ -112,59 +97,6 @@ export default function ColorGrid({ colors, isLoading = false }: ColorGridProps)
           />
         ))}
       </div>
-
-      {/* Pagination */}
-      {totalPages > 1 && (
-        <div className="flex items-center justify-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
-            data-testid="button-prev-page"
-          >
-            Previous
-          </Button>
-          
-          <div className="flex items-center gap-1">
-            {Array.from({ length: Math.min(7, totalPages) }, (_, i) => {
-              let pageNum;
-              if (totalPages <= 7) {
-                pageNum = i + 1;
-              } else if (currentPage <= 4) {
-                pageNum = i + 1;
-              } else if (currentPage >= totalPages - 3) {
-                pageNum = totalPages - 6 + i;
-              } else {
-                pageNum = currentPage - 3 + i;
-              }
-              
-              return (
-                <Button
-                  key={pageNum}
-                  variant={currentPage === pageNum ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setCurrentPage(pageNum)}
-                  className="w-9 h-9 p-0"
-                  data-testid={`button-page-${pageNum}`}
-                >
-                  {pageNum}
-                </Button>
-              );
-            })}
-          </div>
-          
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
-            data-testid="button-next-page"
-          >
-            Next
-          </Button>
-        </div>
-      )}
     </div>
   );
 }
