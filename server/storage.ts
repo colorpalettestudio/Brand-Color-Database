@@ -22,11 +22,32 @@ export class MemStorage implements IStorage {
 
   private initializeColors() {
     // Load curated color database
-    const seedColors = colorSeedData as Array<Omit<Color, 'id'>>;
+    const rawSeedColors = colorSeedData as Array<Omit<Color, 'id'>>;
     
-    // Generate additional colors to reach 600+ total
-    const additionalColors = this.generateAdditionalColors(600 - seedColors.length);
-    const allColors = [...seedColors, ...additionalColors];
+    // Track used names to ensure uniqueness across all colors
+    const usedNames = new Set<string>();
+    const uniqueSeedColors: Array<Omit<Color, 'id'>> = [];
+    
+    // Process seed colors to ensure uniqueness
+    rawSeedColors.forEach(seedColor => {
+      let uniqueName = seedColor.name;
+      
+      // If name is already used, generate a unique variation
+      if (usedNames.has(uniqueName)) {
+        uniqueName = generateProperColorName(seedColor.hex, usedNames);
+      } else {
+        usedNames.add(uniqueName);
+      }
+      
+      uniqueSeedColors.push({
+        ...seedColor,
+        name: uniqueName
+      });
+    });
+    
+    // Generate additional colors with unique names
+    const additionalColors = this.generateAdditionalColors(600 - uniqueSeedColors.length, usedNames);
+    const allColors = [...uniqueSeedColors, ...additionalColors];
 
     allColors.forEach(colorData => {
       const id = randomUUID();
@@ -35,7 +56,7 @@ export class MemStorage implements IStorage {
     });
   }
 
-  private generateAdditionalColors(count: number): Omit<Color, 'id'>[] {
+  private generateAdditionalColors(count: number, usedNames: Set<string>): Omit<Color, 'id'>[] {
     const colors: Omit<Color, 'id'>[] = [];
     
     for (let i = 0; i < count; i++) {
@@ -48,8 +69,8 @@ export class MemStorage implements IStorage {
       const rgb = this.hslToRgb(baseHue, saturation, lightness);
       const hex = `#${rgb.r.toString(16).padStart(2, '0')}${rgb.g.toString(16).padStart(2, '0')}${rgb.b.toString(16).padStart(2, '0')}`.toUpperCase();
       
-      // Generate proper color name based on the actual hex color
-      const name = generateProperColorName(hex);
+      // Generate proper color name based on the actual hex color with uniqueness check
+      const name = generateProperColorName(hex, usedNames);
       
       // Get the actual HSL values from the hex color to ensure hue category matches the color name
       const { h: actualHue, s: actualSaturation } = hexToHsl(hex);
