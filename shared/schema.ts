@@ -106,6 +106,134 @@ export function classifyColorStyle(hex: string): string {
   return "dark-neutrals";
 }
 
+export function generateProperColorName(hex: string): string {
+  const { h, s, l } = hexToHsl(hex);
+  
+  // Handle achromatic colors (grays, blacks, whites)
+  if (s <= 8) {
+    if (l >= 95) return "Snow White";
+    if (l >= 90) return "Pearl White";
+    if (l >= 85) return "Silver";
+    if (l >= 75) return "Light Gray";
+    if (l >= 65) return "Gray";
+    if (l >= 50) return "Steel Gray";
+    if (l >= 35) return "Charcoal";
+    if (l >= 20) return "Graphite";
+    if (l >= 10) return "Jet Black";
+    return "Ebony";
+  }
+  
+  // Define base color names based on hue ranges
+  let baseColor = "";
+  let modifierPrefix = "";
+  let modifierSuffix = "";
+  
+  // Determine base color from hue
+  if (h >= 0 && h < 15) {
+    baseColor = "Red";
+  } else if (h >= 15 && h < 45) {
+    baseColor = h < 30 ? "Crimson" : "Orange";
+  } else if (h >= 45 && h < 75) {
+    baseColor = h < 60 ? "Gold" : "Yellow";
+  } else if (h >= 75 && h < 105) {
+    baseColor = "Chartreuse";
+  } else if (h >= 105 && h < 135) {
+    baseColor = "Green";
+  } else if (h >= 135 && h < 165) {
+    baseColor = h < 150 ? "Emerald" : "Jade";
+  } else if (h >= 165 && h < 195) {
+    baseColor = h < 180 ? "Teal" : "Cyan";
+  } else if (h >= 195 && h < 225) {
+    baseColor = "Blue";
+  } else if (h >= 225 && h < 255) {
+    baseColor = h < 240 ? "Azure" : "Violet";
+  } else if (h >= 255 && h < 285) {
+    baseColor = "Purple";
+  } else if (h >= 285 && h < 315) {
+    baseColor = h < 300 ? "Magenta" : "Fuchsia";
+  } else if (h >= 315 && h < 345) {
+    baseColor = "Rose";
+  } else {
+    baseColor = "Crimson";
+  }
+  
+  // Apply lightness-based modifiers
+  if (l >= 85) {
+    if (s <= 30) modifierPrefix = "Pale ";
+    else if (s <= 50) modifierPrefix = "Light ";
+    else modifierPrefix = "Bright ";
+  } else if (l >= 70) {
+    if (s <= 30) modifierPrefix = "Soft ";
+    else if (s >= 70) modifierPrefix = "Vibrant ";
+    else modifierPrefix = "";
+  } else if (l >= 50) {
+    if (s <= 30) modifierPrefix = "Muted ";
+    else if (s >= 70) modifierPrefix = "Bold ";
+    else modifierPrefix = "";
+  } else if (l >= 30) {
+    if (s <= 30) modifierPrefix = "Dark ";
+    else if (s >= 60) modifierPrefix = "Deep ";
+    else modifierPrefix = "Rich ";
+  } else {
+    modifierPrefix = "Midnight ";
+  }
+  
+  // Special names for certain hue/saturation/lightness combinations
+  const specialNames: { [key: string]: string } = {
+    // Reds
+    "Deep Red": ["Burgundy", "Wine", "Maroon"][Math.floor(h/5) % 3],
+    "Dark Red": ["Garnet", "Ruby", "Claret"][Math.floor(h/5) % 3],
+    "Bright Red": ["Scarlet", "Cherry", "Crimson"][Math.floor(h/5) % 3],
+    
+    // Blues
+    "Deep Blue": ["Navy", "Sapphire", "Indigo"][Math.floor(h/10) % 3],
+    "Dark Blue": ["Midnight", "Cobalt", "Steel"][Math.floor(h/10) % 3],
+    "Light Blue": ["Sky", "Powder", "Ice"][Math.floor(h/10) % 3],
+    "Pale Blue": ["Frost", "Mist", "Cloud"][Math.floor(h/10) % 3],
+    
+    // Greens
+    "Deep Green": ["Forest", "Hunter", "Pine"][Math.floor(h/8) % 3],
+    "Dark Green": ["Emerald", "Jade", "Malachite"][Math.floor(h/8) % 3],
+    "Light Green": ["Mint", "Sage", "Seafoam"][Math.floor(h/8) % 3],
+    "Pale Green": ["Honeydew", "Lime", "Spring"][Math.floor(h/8) % 3],
+    
+    // Purples
+    "Deep Purple": ["Plum", "Eggplant", "Amethyst"][Math.floor(h/12) % 3],
+    "Dark Purple": ["Violet", "Orchid", "Lavender"][Math.floor(h/12) % 3],
+    "Light Purple": ["Lilac", "Periwinkle", "Mauve"][Math.floor(h/12) % 3],
+    
+    // Yellows
+    "Deep Yellow": ["Mustard", "Amber", "Honey"][Math.floor(h/6) % 3],
+    "Bright Yellow": ["Sunflower", "Lemon", "Canary"][Math.floor(h/6) % 3],
+    "Light Yellow": ["Cream", "Vanilla", "Butter"][Math.floor(h/6) % 3],
+    
+    // Oranges
+    "Deep Orange": ["Rust", "Copper", "Bronze"][Math.floor(h/7) % 3],
+    "Bright Orange": ["Tangerine", "Pumpkin", "Sunset"][Math.floor(h/7) % 3],
+    "Light Orange": ["Peach", "Coral", "Salmon"][Math.floor(h/7) % 3],
+    
+    // Pinks
+    "Deep Rose": ["Fuchsia", "Magenta", "Hot Pink"][Math.floor(h/9) % 3],
+    "Light Rose": ["Blush", "Cotton Candy", "Rose Quartz"][Math.floor(h/9) % 3],
+    "Pale Rose": ["Baby Pink", "Powder Pink", "Dusty Rose"][Math.floor(h/9) % 3],
+  };
+  
+  const combinedName = `${modifierPrefix}${baseColor}`.trim();
+  
+  // Use special name if available, otherwise use the constructed name
+  if (specialNames[combinedName]) {
+    return specialNames[combinedName];
+  }
+  
+  // For very saturated colors, add distinctive suffixes
+  if (s >= 80 && l >= 40 && l <= 70) {
+    const suffixes = ["Burst", "Flash", "Glow"];
+    modifierSuffix = ` ${suffixes[Math.floor(h/30) % 3]}`;
+  }
+  
+  return `${modifierPrefix}${baseColor}${modifierSuffix}`.trim();
+}
+
 export function generateSynonyms(hex: string, name: string, style: string): string[] {
   const synonyms = [style];
   const { h, s, l } = hexToHsl(hex);

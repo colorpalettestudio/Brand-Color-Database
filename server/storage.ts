@@ -1,4 +1,4 @@
-import { type Color, type InsertColor, classifyColorStyle, generateSynonyms } from "@shared/schema";
+import { type Color, type InsertColor, classifyColorStyle, generateSynonyms, generateProperColorName, hexToHsl } from "@shared/schema";
 import { randomUUID } from "crypto";
 import colorSeedData from "@shared/colors.seed.json";
 
@@ -37,31 +37,52 @@ export class MemStorage implements IStorage {
 
   private generateAdditionalColors(count: number): Omit<Color, 'id'>[] {
     const colors: Omit<Color, 'id'>[] = [];
-    const hues = ["red", "blue", "green", "yellow", "orange", "purple", "pink", "neutral"];
-    const descriptors = ["Deep", "Rich", "Bright", "Soft", "Warm", "Cool", "Bold", "Gentle", "Pure", "True"];
-    const colorTypes = ["Shade", "Tone", "Tint", "Hue", "Blend", "Mix"];
     
     for (let i = 0; i < count; i++) {
-      const hue = hues[i % hues.length];
-      const descriptor = descriptors[i % descriptors.length];
-      const colorType = colorTypes[Math.floor(i / hues.length) % colorTypes.length];
-      const variant = Math.floor(i / (hues.length * colorTypes.length)) + 1;
-      
       // Generate deterministic hex values based on index
-      let hex: string;
       const baseHue = (i * 137.5) % 360; // Golden angle for good distribution
       const saturation = 30 + (i * 47) % 50; // 30-80%
       const lightness = 20 + (i * 31) % 60; // 20-80%
       
       // Convert HSL to RGB then to hex
       const rgb = this.hslToRgb(baseHue, saturation, lightness);
-      hex = `#${rgb.r.toString(16).padStart(2, '0')}${rgb.g.toString(16).padStart(2, '0')}${rgb.b.toString(16).padStart(2, '0')}`.toUpperCase();
+      const hex = `#${rgb.r.toString(16).padStart(2, '0')}${rgb.g.toString(16).padStart(2, '0')}${rgb.b.toString(16).padStart(2, '0')}`.toUpperCase();
+      
+      // Generate proper color name based on the actual hex color
+      const name = generateProperColorName(hex);
+      
+      // Get the actual HSL values from the hex color to ensure hue category matches the color name
+      const { h: actualHue, s: actualSaturation } = hexToHsl(hex);
+      
+      // Determine the hue category based on actual HSL values to match the naming function
+      let hue: string;
+      if (actualSaturation <= 12) {
+        hue = "neutral";
+      } else if (actualHue >= 345 || actualHue < 15) {
+        hue = "red";
+      } else if (actualHue >= 15 && actualHue < 45) {
+        hue = "orange";
+      } else if (actualHue >= 45 && actualHue < 75) {
+        hue = "yellow";
+      } else if (actualHue >= 75 && actualHue < 165) {
+        hue = "green";
+      } else if (actualHue >= 165 && actualHue < 195) {
+        hue = "blue";
+      } else if (actualHue >= 195 && actualHue < 255) {
+        hue = "blue";
+      } else if (actualHue >= 255 && actualHue < 285) {
+        hue = "purple";
+      } else if (actualHue >= 285 && actualHue < 345) {
+        hue = "pink";
+      } else {
+        hue = "red";
+      }
       
       const style = classifyColorStyle(hex);
-      const keywords = generateSynonyms(hex, `${descriptor} ${hue}`, style);
+      const keywords = generateSynonyms(hex, name, style);
       
       colors.push({
-        name: `${descriptor} ${hue.charAt(0).toUpperCase() + hue.slice(1)} ${colorType}${variant > 1 ? ` ${variant}` : ''}`,
+        name,
         hex,
         hue,
         keywords,
