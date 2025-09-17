@@ -1,4 +1,5 @@
 import { type Color, type InsertColor, classifyColorStyle, generateSynonyms, generateProperColorName, hexToHsl } from "@shared/schema";
+import { isValidHexColor, findSimilarColors } from "@shared/colorSimilarity";
 import { randomUUID } from "crypto";
 import colorSeedData from "@shared/colors.seed.json";
 
@@ -163,7 +164,18 @@ export class MemStorage implements IStorage {
   }
 
   async searchColors(query: string): Promise<Color[]> {
-    const lowerQuery = query.toLowerCase();
+    const trimmedQuery = query.trim();
+    
+    // Check if query is a valid hex color code
+    if (isValidHexColor(trimmedQuery)) {
+      // Use hex similarity search with 90% threshold (10% tolerance)
+      const allColors = Array.from(this.colors.values());
+      const similarColors = findSimilarColors(trimmedQuery, allColors, 90);
+      return similarColors;
+    }
+    
+    // Fall back to string-based search for non-hex queries
+    const lowerQuery = trimmedQuery.toLowerCase();
     return Array.from(this.colors.values()).filter(color =>
       color.name.toLowerCase().includes(lowerQuery) ||
       color.hex.toLowerCase().includes(lowerQuery) ||

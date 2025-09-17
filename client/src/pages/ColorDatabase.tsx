@@ -7,6 +7,7 @@ import ImportExport from "@/components/ImportExport";
 import { Palette } from "lucide-react";
 import type { Color, HueFilter, KeywordFilter } from "@shared/schema";
 import { hexToHsl } from "@shared/schema";
+import { isValidHexColor, findSimilarColors } from "@shared/colorSimilarity";
 
 export default function ColorDatabase() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,13 +38,23 @@ export default function ColorDatabase() {
 
     // Apply search filter
     if (debouncedSearch) {
-      const lowerSearch = debouncedSearch.toLowerCase();
-      filtered = filtered.filter(color =>
-        color.name.toLowerCase().includes(lowerSearch) ||
-        color.hex.toLowerCase().includes(lowerSearch) ||
-        color.hue.toLowerCase().includes(lowerSearch) ||
-        color.keywords.some(keyword => keyword.toLowerCase().includes(lowerSearch))
-      );
+      const trimmedSearch = debouncedSearch.trim();
+      
+      // Check if search query is a valid hex color code
+      if (isValidHexColor(trimmedSearch)) {
+        // Use hex similarity search with 90% threshold (10% tolerance)
+        const similarColors = findSimilarColors(trimmedSearch, filtered, 90);
+        filtered = similarColors;
+      } else {
+        // Fall back to string-based search for non-hex queries
+        const lowerSearch = trimmedSearch.toLowerCase();
+        filtered = filtered.filter(color =>
+          color.name.toLowerCase().includes(lowerSearch) ||
+          color.hex.toLowerCase().includes(lowerSearch) ||
+          color.hue.toLowerCase().includes(lowerSearch) ||
+          color.keywords.some(keyword => keyword.toLowerCase().includes(lowerSearch))
+        );
+      }
     }
 
     // Apply hue filter
