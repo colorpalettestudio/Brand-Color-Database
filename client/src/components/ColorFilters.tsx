@@ -28,11 +28,12 @@ const hueOptions: { value: HueFilter; label: string; color: string }[] = [
 const keywordOptions: { value: KeywordFilter; label: string }[] = [
   { value: "all", label: "All Styles" },
   { value: "pastel", label: "Pastel" },
-  { value: "light", label: "Light" },
-  { value: "dark", label: "Dark" },
-  { value: "vibrant", label: "Vibrant" },
+  { value: "light-neutrals", label: "Light Neutrals" },
+  { value: "dark-neutrals", label: "Dark Neutrals" },
   { value: "muted", label: "Muted" },
-  { value: "neutral", label: "Neutral" },
+  { value: "jewel", label: "Jewel Tones" },
+  { value: "vibrant", label: "Vibrant" },
+  { value: "earthy", label: "Earthy" },
 ];
 
 export default function ColorFilters({
