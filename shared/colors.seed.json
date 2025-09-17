@@ -206,5 +206,23 @@
   {"name": "Lily", "hex": "#FFFFFF", "hue": "white", "keywords": ["light-neutrals"]},
   {"name": "Jasmine", "hex": "#F8DE7E", "hue": "yellow", "keywords": ["pastel"]},
   {"name": "Gardenia", "hex": "#FDF6E3", "hue": "white", "keywords": ["light-neutrals"]},
-  {"name": "Magnolia", "hex": "#F2E8D5", "hue": "white", "keywords": ["light-neutrals"]}
+  {"name": "Magnolia", "hex": "#F2E8D5", "hue": "white", "keywords": ["light-neutrals"]},
+
+  {"name": "Mocha Mousse", "hex": "#A67B5B", "hue": "neutral", "keywords": ["earthy", "trending-2025"]},
+  {"name": "Cinnamon Slate", "hex": "#8B4A6B", "hue": "purple", "keywords": ["muted", "trending-2025"]},
+  {"name": "Mauve Finery", "hex": "#C695A0", "hue": "pink", "keywords": ["muted", "trending-2025"]}, 
+  {"name": "Purple Basil", "hex": "#6B4C6D", "hue": "purple", "keywords": ["dark-neutrals", "trending-2025"]},
+  {"name": "Future Dusk", "hex": "#5D5A6B", "hue": "purple", "keywords": ["muted", "trending-2025"]},
+  {"name": "Truffle Brown", "hex": "#4A3728", "hue": "neutral", "keywords": ["dark-neutrals", "trending-2025"]},
+  {"name": "Deep Olive Green", "hex": "#4B5D23", "hue": "green", "keywords": ["earthy", "trending-2025"]},
+  {"name": "Dusty Paprika", "hex": "#C26B47", "hue": "orange", "keywords": ["muted", "trending-2025"]},
+  {"name": "Windsor Wine", "hex": "#722F37", "hue": "red", "keywords": ["jewel", "trending-2025"]},
+  {"name": "Oxblood", "hex": "#4A0E0E", "hue": "red", "keywords": ["dark-neutrals", "trending-2025"]},
+  {"name": "Eggplant Purple", "hex": "#614051", "hue": "purple", "keywords": ["dark-neutrals", "trending-2025"]},
+  {"name": "Deep Plum", "hex": "#663399", "hue": "purple", "keywords": ["jewel", "trending-2025"]},
+  {"name": "Digital Lavender", "hex": "#B19CD1", "hue": "purple", "keywords": ["muted", "trending-2025"]},
+  {"name": "Buttercream", "hex": "#FFF8DC", "hue": "yellow", "keywords": ["light-neutrals", "trending-2025"]},
+  {"name": "Butter Yellow", "hex": "#FFDB58", "hue": "yellow", "keywords": ["vibrant", "trending-2025"]},
+  {"name": "Lemongrass", "hex": "#9CAF88", "hue": "green", "keywords": ["earthy", "trending-2025"]},
+  {"name": "Winterberry", "hex": "#8B3A62", "hue": "red", "keywords": ["jewel", "trending-2025"]}
 ]
