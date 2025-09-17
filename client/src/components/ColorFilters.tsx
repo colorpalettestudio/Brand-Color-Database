@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Search, X, ArrowUpDown, Sun, Droplets } from "lucide-react";
+import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { HueFilter, KeywordFilter } from "@shared/schema";
 
@@ -11,8 +11,6 @@ interface ColorFiltersProps {
   onHueChange: (hue: HueFilter) => void;
   selectedKeyword: KeywordFilter;
   onKeywordChange: (keyword: KeywordFilter) => void;
-  sortBy: "none" | "lightness" | "saturation";
-  onSortByChange: (sortBy: "none" | "lightness" | "saturation") => void;
 }
 
 const hueOptions: { value: HueFilter; label: string; color: string }[] = [
@@ -47,8 +45,6 @@ export default function ColorFilters({
   onHueChange,
   selectedKeyword,
   onKeywordChange,
-  sortBy,
-  onSortByChange,
 }: ColorFiltersProps) {
   const clearSearch = () => onSearchChange("");
 
@@ -125,52 +121,10 @@ export default function ColorFilters({
           </div>
         </div>
 
-        {/* Sort Options */}
-        <div className="space-y-3">
-          <h3 className="text-sm font-medium text-foreground">Sort By</h3>
-          <div className="flex flex-wrap gap-2">
-            <Button
-              variant={sortBy === "none" ? "default" : "outline"}
-              size="sm"
-              onClick={() => onSortByChange("none")}
-              className={cn(
-                sortBy === "none" && "bg-foreground text-background hover:bg-foreground/90"
-              )}
-              data-testid="sort-none"
-            >
-              <ArrowUpDown className="w-3 h-3 mr-1" />
-              Default
-            </Button>
-            <Button
-              variant={sortBy === "lightness" ? "default" : "outline"}
-              size="sm"
-              onClick={() => onSortByChange("lightness")}
-              className={cn(
-                sortBy === "lightness" && "bg-foreground text-background hover:bg-foreground/90"
-              )}
-              data-testid="sort-lightness"
-            >
-              <Sun className="w-3 h-3 mr-1" />
-              Lightness (Light → Dark)
-            </Button>
-            <Button
-              variant={sortBy === "saturation" ? "default" : "outline"}
-              size="sm"
-              onClick={() => onSortByChange("saturation")}
-              className={cn(
-                sortBy === "saturation" && "bg-foreground text-background hover:bg-foreground/90"
-              )}
-              data-testid="sort-saturation"
-            >
-              <Droplets className="w-3 h-3 mr-1" />
-              Saturation (Vibrant → Muted)
-            </Button>
-          </div>
-        </div>
       </div>
 
       {/* Active Filters Summary */}
-      {(selectedHue !== "all" || selectedKeyword !== "all" || searchQuery || sortBy !== "none") && (
+      {(selectedHue !== "all" || selectedKeyword !== "all" || searchQuery) && (
         <div className="flex items-center gap-2 pt-2 border-t border-border">
           <span className="text-sm text-muted-foreground">Active filters:</span>
           {selectedHue !== "all" && (
@@ -181,11 +135,6 @@ export default function ColorFilters({
           {selectedKeyword !== "all" && (
             <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
               {keywordOptions.find(k => k.value === selectedKeyword)?.label}
-            </span>
-          )}
-          {sortBy !== "none" && (
-            <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
-              Sort: {sortBy === "lightness" ? "Lightness" : "Saturation"}
             </span>
           )}
           {searchQuery && (

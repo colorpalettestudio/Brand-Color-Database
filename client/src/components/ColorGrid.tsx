@@ -1,22 +1,18 @@
-import { useState } from "react";
 import ColorSwatch from "./ColorSwatch";
 import { Button } from "@/components/ui/button";
-import { Grid, List } from "lucide-react";
+import { ArrowUpDown, Sun, Droplets } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Color } from "@shared/schema";
 
 interface ColorGridProps {
   colors: Color[];
   isLoading?: boolean;
+  sortBy: "none" | "lightness" | "saturation";
+  onSortByChange: (sortBy: "none" | "lightness" | "saturation") => void;
 }
 
-export default function ColorGrid({ colors, isLoading = false }: ColorGridProps) {
-  const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-
-  const gridClasses = {
-    grid: "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4",
-    list: "grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4",
-  };
+export default function ColorGrid({ colors, isLoading = false, sortBy, onSortByChange }: ColorGridProps) {
+  const gridClasses = "grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 xl:grid-cols-10 gap-4";
 
   if (isLoading) {
     return (
@@ -28,7 +24,7 @@ export default function ColorGrid({ colors, isLoading = false }: ColorGridProps)
             <div className="h-9 w-9 bg-muted rounded animate-pulse" />
           </div>
         </div>
-        <div className={gridClasses.grid}>
+        <div className={gridClasses}>
           {Array.from({ length: 24 }).map((_, i) => (
             <div key={i} className="space-y-2">
               <div className="w-24 h-24 bg-muted rounded-lg animate-pulse" />
@@ -63,36 +59,54 @@ export default function ColorGrid({ colors, isLoading = false }: ColorGridProps)
           </h2>
         </div>
         
-        {/* View mode toggle */}
-        <div className="flex gap-1 border border-border rounded-lg p-1">
+        {/* Sort options */}
+        <div className="flex flex-wrap gap-2">
           <Button
-            variant={viewMode === "grid" ? "default" : "ghost"}
+            variant={sortBy === "none" ? "default" : "outline"}
             size="sm"
-            onClick={() => setViewMode("grid")}
-            className="w-9 h-7 p-0"
-            data-testid="button-view-grid"
+            onClick={() => onSortByChange("none")}
+            className={cn(
+              sortBy === "none" && "bg-foreground text-background hover:bg-foreground/90"
+            )}
+            data-testid="sort-none"
           >
-            <Grid className="w-4 h-4" />
+            <ArrowUpDown className="w-3 h-3 mr-1" />
+            Default
           </Button>
           <Button
-            variant={viewMode === "list" ? "default" : "ghost"}
+            variant={sortBy === "lightness" ? "default" : "outline"}
             size="sm"
-            onClick={() => setViewMode("list")}
-            className="w-9 h-7 p-0"
-            data-testid="button-view-list"
+            onClick={() => onSortByChange("lightness")}
+            className={cn(
+              sortBy === "lightness" && "bg-foreground text-background hover:bg-foreground/90"
+            )}
+            data-testid="sort-lightness"
           >
-            <List className="w-4 h-4" />
+            <Sun className="w-3 h-3 mr-1" />
+            Lightness
+          </Button>
+          <Button
+            variant={sortBy === "saturation" ? "default" : "outline"}
+            size="sm"
+            onClick={() => onSortByChange("saturation")}
+            className={cn(
+              sortBy === "saturation" && "bg-foreground text-background hover:bg-foreground/90"
+            )}
+            data-testid="sort-saturation"
+          >
+            <Droplets className="w-3 h-3 mr-1" />
+            Saturation
           </Button>
         </div>
       </div>
 
       {/* Color grid */}
-      <div className={cn(gridClasses[viewMode])} data-testid="grid-colors">
+      <div className={cn(gridClasses)} data-testid="grid-colors">
         {colors.map((color) => (
           <ColorSwatch
             key={color.id}
             color={color}
-            size={viewMode === "grid" ? "md" : "lg"}
+            size="md"
             showInfo={true}
           />
         ))}

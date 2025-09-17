@@ -149,15 +149,18 @@ export default function ColorDatabase() {
             onHueChange={setSelectedHue}
             selectedKeyword={selectedKeyword}
             onKeywordChange={setSelectedKeyword}
-            sortBy={sortBy}
-            onSortByChange={setSortBy}
           />
         </div>
       </div>
 
       {/* Main Content */}
       <main className="container mx-auto px-4">
-        <ColorGrid colors={filteredColors} isLoading={isLoading} />
+        <ColorGrid 
+          colors={filteredColors} 
+          isLoading={isLoading}
+          sortBy={sortBy}
+          onSortByChange={setSortBy}
+        />
       </main>
 
       {/* Footer */}
