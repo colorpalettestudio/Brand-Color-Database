@@ -222,7 +222,7 @@
   {"name": "Deep Plum", "hex": "#663399", "hue": "purple", "keywords": ["jewel", "trending-2025"]},
   {"name": "Digital Lavender", "hex": "#B19CD1", "hue": "purple", "keywords": ["muted", "trending-2025"]},
   {"name": "Buttercream", "hex": "#FFF8DC", "hue": "yellow", "keywords": ["light-neutrals", "trending-2025"]},
-  {"name": "Butter Yellow", "hex": "#FFDB58", "hue": "yellow", "keywords": ["vibrant", "trending-2025"]},
-  {"name": "Lemongrass", "hex": "#9CAF88", "hue": "green", "keywords": ["earthy", "trending-2025"]},
+  {"name": "Butter Yellow", "hex": "#FFE135", "hue": "yellow", "keywords": ["vibrant", "trending-2025"]},
+  {"name": "Lemongrass", "hex": "#A4C639", "hue": "green", "keywords": ["earthy", "trending-2025"]},
   {"name": "Winterberry", "hex": "#8B3A62", "hue": "red", "keywords": ["jewel", "trending-2025"]}
 ]
