@@ -68,7 +68,7 @@ export default function ColorSwatch({ color, size = "md", showInfo = true }: Col
       {/* Color swatch */}
       <div
         className={cn(
-          "relative rounded-lg cursor-pointer hover-elevate active-elevate-2 overflow-hidden border border-border",
+          "relative rounded-lg cursor-pointer hover-elevate active-elevate-2 overflow-hidden border border-border shadow-sm",
           sizeClasses[size]
         )}
         style={{ backgroundColor: color.hex }}

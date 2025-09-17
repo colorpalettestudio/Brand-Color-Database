@@ -24,8 +24,14 @@ export class MemStorage implements IStorage {
     // Load curated color database
     const seedColors = colorSeedData as Array<Omit<Color, 'id'>>;
     
+    // Track used names to ensure uniqueness
+    const usedNames = new Set<string>();
+    
+    // Add seed color names to used set
+    seedColors.forEach(color => usedNames.add(color.name));
+    
     // Generate additional colors to reach 600+ total
-    const additionalColors = this.generateAdditionalColors(600 - seedColors.length);
+    const additionalColors = this.generateAdditionalColors(600 - seedColors.length, usedNames);
     const allColors = [...seedColors, ...additionalColors];
 
     allColors.forEach(colorData => {
@@ -35,7 +41,7 @@ export class MemStorage implements IStorage {
     });
   }
 
-  private generateAdditionalColors(count: number): Omit<Color, 'id'>[] {
+  private generateAdditionalColors(count: number, usedNames: Set<string>): Omit<Color, 'id'>[] {
     const colors: Omit<Color, 'id'>[] = [];
     
     for (let i = 0; i < count; i++) {
@@ -48,16 +54,23 @@ export class MemStorage implements IStorage {
       const rgb = this.hslToRgb(baseHue, saturation, lightness);
       const hex = `#${rgb.r.toString(16).padStart(2, '0')}${rgb.g.toString(16).padStart(2, '0')}${rgb.b.toString(16).padStart(2, '0')}`.toUpperCase();
       
-      // Generate proper color name based on the actual hex color
-      const name = generateProperColorName(hex);
+      // Generate proper color name based on the actual hex color with uniqueness tracking
+      const name = generateProperColorName(hex, usedNames);
       
       // Get the actual HSL values from the hex color to ensure hue category matches the color name
-      const { h: actualHue, s: actualSaturation } = hexToHsl(hex);
+      const { h: actualHue, s: actualSaturation, l: actualLightness } = hexToHsl(hex);
       
-      // Determine the hue category based on actual HSL values to match the naming function
+      // Determine the hue category based on actual HSL values, with special handling for white/black
       let hue: string;
       if (actualSaturation <= 12) {
-        hue = "neutral";
+        // Categorize neutrals as white, black, or neutral based on lightness
+        if (actualLightness >= 80) {
+          hue = "white";
+        } else if (actualLightness <= 25) {
+          hue = "black";
+        } else {
+          hue = "neutral";
+        }
       } else if (actualHue >= 345 || actualHue < 15) {
         hue = "red";
       } else if (actualHue >= 15 && actualHue < 45) {
