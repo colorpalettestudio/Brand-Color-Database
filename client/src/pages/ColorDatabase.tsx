@@ -14,9 +14,8 @@ export default function ColorDatabase() {
   const [selectedKeyword, setSelectedKeyword] = useState<KeywordFilter>("all");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   
-  // Slider filter state
-  const [sliderMode, setSliderMode] = useState<"lightness" | "saturation">("lightness");
-  const [sliderRange, setSliderRange] = useState<[number, number]>([0, 100]);
+  // Sort options state
+  const [sortBy, setSortBy] = useState<"none" | "lightness" | "saturation">("none");
 
   // Debounce search query
   useEffect(() => {
@@ -57,17 +56,25 @@ export default function ColorDatabase() {
       filtered = filtered.filter(color => color.keywords.includes(selectedKeyword));
     }
 
-    // Apply slider filter (only if not at full range)
-    if (sliderRange[0] > 0 || sliderRange[1] < 100) {
-      filtered = filtered.filter(color => {
-        const { s, l } = hexToHsl(color.hex);
-        const value = sliderMode === "lightness" ? l : s;
-        return value >= sliderRange[0] && value <= sliderRange[1];
+    // Apply sorting (if specified)
+    if (sortBy !== "none") {
+      filtered = [...filtered].sort((a, b) => {
+        const aHsl = hexToHsl(a.hex);
+        const bHsl = hexToHsl(b.hex);
+        
+        if (sortBy === "lightness") {
+          // Sort lightest → darkest (high to low lightness)
+          return bHsl.l - aHsl.l;
+        } else if (sortBy === "saturation") {
+          // Sort most saturated → least saturated (high to low saturation)
+          return bHsl.s - aHsl.s;
+        }
+        return 0;
       });
     }
 
-    // Sort in ROYGBIV pattern if showing all colors and all styles
-    if (selectedHue === "all" && selectedKeyword === "all" && !debouncedSearch) {
+    // Sort in ROYGBIV pattern if showing all colors, all styles, and no custom sort
+    if (selectedHue === "all" && selectedKeyword === "all" && !debouncedSearch && sortBy === "none") {
       const roygbivOrder = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "neutral", "white", "black"];
       
       // Take first ~5 colors from each hue category for ROYGBIV pattern
@@ -86,7 +93,7 @@ export default function ColorDatabase() {
     }
 
     return filtered;
-  }, [allColors, debouncedSearch, selectedHue, selectedKeyword, sliderMode, sliderRange]);
+  }, [allColors, debouncedSearch, selectedHue, selectedKeyword, sortBy]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -131,10 +138,8 @@ export default function ColorDatabase() {
             onHueChange={setSelectedHue}
             selectedKeyword={selectedKeyword}
             onKeywordChange={setSelectedKeyword}
-            sliderMode={sliderMode}
-            onSliderModeChange={setSliderMode}
-            sliderRange={sliderRange}
-            onSliderRangeChange={setSliderRange}
+            sortBy={sortBy}
+            onSortByChange={setSortBy}
           />
         </div>
       </div>

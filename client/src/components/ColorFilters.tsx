@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
-import { Search, X, Sun, Droplets } from "lucide-react";
+import { Search, X, ArrowUpDown, Sun, Droplets } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { HueFilter, KeywordFilter } from "@shared/schema";
 
@@ -12,10 +11,8 @@ interface ColorFiltersProps {
   onHueChange: (hue: HueFilter) => void;
   selectedKeyword: KeywordFilter;
   onKeywordChange: (keyword: KeywordFilter) => void;
-  sliderMode: "lightness" | "saturation";
-  onSliderModeChange: (mode: "lightness" | "saturation") => void;
-  sliderRange: [number, number];
-  onSliderRangeChange: (range: [number, number]) => void;
+  sortBy: "none" | "lightness" | "saturation";
+  onSortByChange: (sortBy: "none" | "lightness" | "saturation") => void;
 }
 
 const hueOptions: { value: HueFilter; label: string; color: string }[] = [
@@ -50,10 +47,8 @@ export default function ColorFilters({
   onHueChange,
   selectedKeyword,
   onKeywordChange,
-  sliderMode,
-  onSliderModeChange,
-  sliderRange,
-  onSliderRangeChange,
+  sortBy,
+  onSortByChange,
 }: ColorFiltersProps) {
   const clearSearch = () => onSearchChange("");
 
@@ -128,60 +123,52 @@ export default function ColorFilters({
           </div>
         </div>
 
-        {/* Lightness/Saturation Slider */}
+        {/* Sort Options */}
         <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <h3 className="text-sm font-medium text-foreground">
-              Filter by {sliderMode === "lightness" ? "Lightness" : "Saturation"}
-            </h3>
-            <div className="flex rounded-lg bg-muted p-1">
-              <Button
-                variant={sliderMode === "lightness" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => onSliderModeChange("lightness")}
-                className="h-8 px-3 text-xs"
-                data-testid="button-slider-lightness"
-              >
-                <Sun className="w-3 h-3 mr-1" />
-                Lightness
-              </Button>
-              <Button
-                variant={sliderMode === "saturation" ? "default" : "ghost"}
-                size="sm"
-                onClick={() => onSliderModeChange("saturation")}
-                className="h-8 px-3 text-xs"
-                data-testid="button-slider-saturation"
-              >
-                <Droplets className="w-3 h-3 mr-1" />
-                Saturation
-              </Button>
-            </div>
-          </div>
-          
-          <div className="space-y-2">
-            <Slider
-              value={sliderRange}
-              onValueChange={onSliderRangeChange}
-              max={100}
-              min={0}
-              step={1}
-              className="w-full"
-              data-testid="slider-range"
-            />
-            <div className="flex justify-between text-xs text-muted-foreground">
-              <span>
-                {sliderMode === "lightness" ? "Darkest" : "Muted"} ({sliderRange[0]}%)
-              </span>
-              <span>
-                {sliderMode === "lightness" ? "Lightest" : "Vibrant"} ({sliderRange[1]}%)
-              </span>
-            </div>
+          <h3 className="text-sm font-medium text-foreground">Sort By</h3>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              variant={sortBy === "none" ? "default" : "outline"}
+              size="sm"
+              onClick={() => onSortByChange("none")}
+              className={cn(
+                sortBy === "none" && "bg-foreground text-background hover:bg-foreground/90"
+              )}
+              data-testid="sort-none"
+            >
+              <ArrowUpDown className="w-3 h-3 mr-1" />
+              Default
+            </Button>
+            <Button
+              variant={sortBy === "lightness" ? "default" : "outline"}
+              size="sm"
+              onClick={() => onSortByChange("lightness")}
+              className={cn(
+                sortBy === "lightness" && "bg-foreground text-background hover:bg-foreground/90"
+              )}
+              data-testid="sort-lightness"
+            >
+              <Sun className="w-3 h-3 mr-1" />
+              Lightness (Light → Dark)
+            </Button>
+            <Button
+              variant={sortBy === "saturation" ? "default" : "outline"}
+              size="sm"
+              onClick={() => onSortByChange("saturation")}
+              className={cn(
+                sortBy === "saturation" && "bg-foreground text-background hover:bg-foreground/90"
+              )}
+              data-testid="sort-saturation"
+            >
+              <Droplets className="w-3 h-3 mr-1" />
+              Saturation (Vibrant → Muted)
+            </Button>
           </div>
         </div>
       </div>
 
       {/* Active Filters Summary */}
-      {(selectedHue !== "all" || selectedKeyword !== "all" || searchQuery || sliderRange[0] > 0 || sliderRange[1] < 100) && (
+      {(selectedHue !== "all" || selectedKeyword !== "all" || searchQuery || sortBy !== "none") && (
         <div className="flex items-center gap-2 pt-2 border-t border-border">
           <span className="text-sm text-muted-foreground">Active filters:</span>
           {selectedHue !== "all" && (
@@ -194,9 +181,9 @@ export default function ColorFilters({
               {keywordOptions.find(k => k.value === selectedKeyword)?.label}
             </span>
           )}
-          {(sliderRange[0] > 0 || sliderRange[1] < 100) && (
+          {sortBy !== "none" && (
             <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
-              {sliderMode === "lightness" ? "Lightness" : "Saturation"}: {sliderRange[0]}%-{sliderRange[1]}%
+              Sort: {sortBy === "lightness" ? "Lightness" : "Saturation"}
             </span>
           )}
           {searchQuery && (
