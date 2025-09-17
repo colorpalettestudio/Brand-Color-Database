@@ -7,7 +7,6 @@ import ImportExport from "@/components/ImportExport";
 import { Palette } from "lucide-react";
 import type { Color, HueFilter, KeywordFilter } from "@shared/schema";
 import { hexToHsl } from "@shared/schema";
-import { isValidHexColor, findSimilarColors } from "@shared/colorSimilarity";
 
 /**
  * Calculate vividness (perceived saturation) using HSV instead of HSL.
@@ -51,36 +50,18 @@ export default function ColorDatabase() {
     return () => clearTimeout(timer);
   }, [searchQuery]);
 
-  // Fetch all colors
+  // Fetch colors - use search API if there's a search query, otherwise get all colors
   const { data: allColors = [], isLoading } = useQuery<Color[]>({
-    queryKey: ["/api/colors"],
+    queryKey: debouncedSearch 
+      ? [`/api/colors/search?q=${encodeURIComponent(debouncedSearch)}`] 
+      : ["/api/colors"],
     enabled: true,
   });
 
-  // Filter colors based on current filters
+  // Filter colors based on hue and keyword filters only
+  // (Search filtering is now handled by the backend API)
   const filteredColors = useMemo(() => {
     let filtered = allColors;
-
-    // Apply search filter
-    if (debouncedSearch) {
-      const trimmedSearch = debouncedSearch.trim();
-      
-      // Check if search query is a valid hex color code
-      if (isValidHexColor(trimmedSearch)) {
-        // Use hex similarity search with 90% threshold (10% tolerance)
-        const similarColors = findSimilarColors(trimmedSearch, filtered, 90);
-        filtered = similarColors;
-      } else {
-        // Fall back to string-based search for non-hex queries
-        const lowerSearch = trimmedSearch.toLowerCase();
-        filtered = filtered.filter(color =>
-          color.name.toLowerCase().includes(lowerSearch) ||
-          color.hex.toLowerCase().includes(lowerSearch) ||
-          color.hue.toLowerCase().includes(lowerSearch) ||
-          color.keywords.some(keyword => keyword.toLowerCase().includes(lowerSearch))
-        );
-      }
-    }
 
     // Apply hue filter
     if (selectedHue !== "all") {
