@@ -9,6 +9,31 @@ import type { Color, HueFilter, KeywordFilter } from "@shared/schema";
 import { hexToHsl } from "@shared/schema";
 import { isValidHexColor, findSimilarColors } from "@shared/colorSimilarity";
 
+/**
+ * Calculate vividness (perceived saturation) using HSV instead of HSL.
+ * HSL saturation can be misleadingly high for very light colors (near-whites),
+ * while HSV saturation better represents perceptual saturation.
+ */
+function calculateVividness(hex: string): number {
+  // Convert hex to RGB (0-1 range)
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  
+  const max = Math.max(r, g, b);
+  const min = Math.min(r, g, b);
+  const delta = max - min;
+  
+  // HSV saturation
+  const saturation = max === 0 ? 0 : delta / max;
+  
+  // HSV value (brightness)
+  const value = max;
+  
+  // Vividness = S * V (penalizes both desaturated and very dark colors)
+  return saturation * value;
+}
+
 export default function ColorDatabase() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedHue, setSelectedHue] = useState<HueFilter>("all");
@@ -77,8 +102,12 @@ export default function ColorDatabase() {
           // Sort lightest → darkest (high to low lightness)
           return bHsl.l - aHsl.l;
         } else if (sortBy === "saturation") {
-          // Sort most saturated → least saturated (high to low saturation)
-          return bHsl.s - aHsl.s;
+          // Sort most vivid → least vivid (using HSV-based vividness)
+          // Note: We use vividness instead of HSL saturation because HSL.s
+          // can be misleadingly high for near-white colors like Snow White
+          const aVividness = calculateVividness(a.hex);
+          const bVividness = calculateVividness(b.hex);
+          return bVividness - aVividness;
         }
         return 0;
       });
