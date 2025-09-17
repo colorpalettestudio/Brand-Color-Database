@@ -23,13 +23,15 @@ const hueOptions: { value: HueFilter; label: string; color: string }[] = [
   { value: "purple", label: "Purple", color: "bg-purple-500" },
   { value: "pink", label: "Pink", color: "bg-pink-500" },
   { value: "neutral", label: "Neutral", color: "bg-gray-500" },
+  { value: "white", label: "White", color: "bg-white" },
+  { value: "black", label: "Black", color: "bg-black" },
 ];
 
 const keywordOptions: { value: KeywordFilter; label: string }[] = [
   { value: "all", label: "All Styles" },
-  { value: "pastel", label: "Pastel" },
   { value: "light-neutrals", label: "Light Neutrals" },
   { value: "dark-neutrals", label: "Dark Neutrals" },
+  { value: "pastel", label: "Pastel" },
   { value: "muted", label: "Muted" },
   { value: "jewel", label: "Jewel Tones" },
   { value: "vibrant", label: "Vibrant" },

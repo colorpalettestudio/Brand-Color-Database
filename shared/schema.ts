@@ -20,7 +20,7 @@ export type InsertColor = z.infer<typeof insertColorSchema>;
 export type Color = typeof colors.$inferSelect;
 
 // Filter types
-export const hueFilterSchema = z.enum(["all", "red", "green", "blue", "yellow", "orange", "purple", "pink", "neutral"]);
+export const hueFilterSchema = z.enum(["all", "red", "green", "blue", "yellow", "orange", "purple", "pink", "neutral", "white", "black"]);
 export const keywordFilterSchema = z.enum(["all", "pastel", "light-neutrals", "dark-neutrals", "muted", "jewel", "vibrant", "earthy"]);
 
 export type HueFilter = z.infer<typeof hueFilterSchema>;

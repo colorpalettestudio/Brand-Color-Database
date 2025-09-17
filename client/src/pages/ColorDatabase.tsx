@@ -52,6 +52,25 @@ export default function ColorDatabase() {
       filtered = filtered.filter(color => color.keywords.includes(selectedKeyword));
     }
 
+    // Sort in ROYGBIV pattern if showing all colors and all styles
+    if (selectedHue === "all" && selectedKeyword === "all" && !debouncedSearch) {
+      const roygbivOrder = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "neutral", "white", "black"];
+      
+      // Take first ~5 colors from each hue category for ROYGBIV pattern
+      const roygbivColors: Color[] = [];
+      roygbivOrder.forEach(hue => {
+        const hueColors = filtered.filter(color => color.hue === hue).slice(0, 5);
+        roygbivColors.push(...hueColors);
+      });
+      
+      // Add remaining colors after ROYGBIV section
+      const remainingColors = filtered.filter(color => 
+        !roygbivColors.some(roygbiv => roygbiv.id === color.id)
+      );
+      
+      return [...roygbivColors, ...remainingColors];
+    }
+
     return filtered;
   }, [allColors, debouncedSearch, selectedHue, selectedKeyword]);
 
