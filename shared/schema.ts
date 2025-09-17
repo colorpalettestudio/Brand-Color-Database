@@ -106,7 +106,7 @@ export function classifyColorStyle(hex: string): string {
   return "dark-neutrals";
 }
 
-export function generateProperColorName(hex: string, usedNames: Set<string> = new Set()): string {
+export function generateProperColorName(hex: string): string {
   const { h, s, l } = hexToHsl(hex);
   
   // Handle achromatic colors (grays, blacks, whites)
@@ -231,62 +231,7 @@ export function generateProperColorName(hex: string, usedNames: Set<string> = ne
     modifierSuffix = ` ${suffixes[Math.floor(h/30) % 3]}`;
   }
   
-  let finalName = `${modifierPrefix}${baseColor}${modifierSuffix}`.trim();
-  
-  // Ensure uniqueness by adding variations if the name is already used
-  let uniqueName = finalName;
-  let counter = 1;
-  
-  while (usedNames.has(uniqueName)) {
-    counter++;
-    
-    // Try different variations before resorting to numbers
-    if (counter === 2) {
-      // Try with alternate descriptors
-      const alternates = {
-        "Deep": "Rich", "Rich": "Bold", "Bold": "Vivid",
-        "Dark": "Midnight", "Midnight": "Shadow", "Shadow": "Obsidian",
-        "Light": "Pale", "Pale": "Soft", "Soft": "Gentle",
-        "Bright": "Brilliant", "Brilliant": "Radiant", "Radiant": "Luminous"
-      };
-      
-      for (const [original, alternate] of Object.entries(alternates)) {
-        if (modifierPrefix.includes(original)) {
-          uniqueName = finalName.replace(original, alternate);
-          break;
-        }
-      }
-    } else if (counter === 3) {
-      // Try geographic or nature-based variations
-      const variations = {
-        "Blue": ["Azure", "Cerulean", "Cobalt", "Steel", "Ocean"],
-        "Green": ["Emerald", "Jade", "Forest", "Pine", "Mint"],
-        "Red": ["Crimson", "Scarlet", "Cherry", "Burgundy", "Wine"],
-        "Purple": ["Violet", "Plum", "Amethyst", "Lavender", "Orchid"],
-        "Yellow": ["Gold", "Amber", "Honey", "Citrine", "Lemon"],
-        "Orange": ["Coral", "Peach", "Copper", "Bronze", "Sunset"],
-        "Pink": ["Rose", "Blush", "Fuchsia", "Magenta", "Carnation"],
-        "Teal": ["Turquoise", "Aqua", "Seafoam", "Verdigris"],
-        "Cyan": ["Aqua", "Turquoise", "Sky", "Ice"]
-      };
-      
-      for (const [base, alternateList] of Object.entries(variations)) {
-        if (baseColor === base) {
-          const altIndex = (counter - 3) % alternateList.length;
-          uniqueName = modifierPrefix + alternateList[altIndex] + modifierSuffix;
-          break;
-        }
-      }
-    } else {
-      // As last resort, append Roman numerals (more elegant than numbers)
-      const romanNumerals = ["", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"];
-      const romanIndex = Math.min(counter - 3, romanNumerals.length - 1);
-      uniqueName = `${finalName} ${romanNumerals[romanIndex]}`;
-    }
-  }
-  
-  usedNames.add(uniqueName);
-  return uniqueName;
+  return `${modifierPrefix}${baseColor}${modifierSuffix}`.trim();
 }
 
 export function generateSynonyms(hex: string, name: string, style: string): string[] {
