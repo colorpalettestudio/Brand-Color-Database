@@ -1,5 +1,6 @@
 import { type Color, type InsertColor, classifyColorStyle, generateSynonyms, generateProperColorName, hexToHsl } from "@shared/schema";
 import { isValidHexColor, findSimilarColors } from "@shared/colorSimilarity";
+import { categorizeColors, parseColorQuery, getScoredColors } from "@shared/colorCategorization";
 import { randomUUID } from "crypto";
 import colorSeedData from "@shared/colors.seed.json";
 
@@ -174,7 +175,23 @@ export class MemStorage implements IStorage {
       return similarColors;
     }
     
-    // Fall back to string-based search for non-hex queries
+    // Try intelligent color categorization for descriptive queries
+    const allColors = Array.from(this.colors.values());
+    const parsedQuery = parseColorQuery(trimmedQuery);
+    
+    if (parsedQuery.isDescriptive) {
+      // Use intelligent categorization system
+      const scoredColors = categorizeColors(allColors, trimmedQuery);
+      
+      // If categorization found matches, return them sorted by relevance
+      if (scoredColors.length > 0) {
+        return getScoredColors(scoredColors);
+      }
+      
+      // If no categorized matches found, fall through to string-based search
+    }
+    
+    // Fall back to string-based search for non-descriptive queries or when categorization yields no results
     const lowerQuery = trimmedQuery.toLowerCase();
     return Array.from(this.colors.values()).filter(color =>
       color.name.toLowerCase().includes(lowerQuery) ||
