@@ -32,6 +32,141 @@ function calculateVividness(hex: string): number {
   return saturation * value;
 }
 
+/**
+ * Enhanced color selection for beautiful rainbow display.
+ * Prioritizes vibrant colors and bright pastels with sophisticated scoring.
+ */
+function selectBestColorsForRainbow(colors: Color[], maxColors: number): Color[] {
+  if (colors.length === 0) return [];
+  
+  // Score each color for rainbow display appeal
+  const scoredColors = colors.map(color => {
+    const { h, s, l } = hexToHsl(color.hex);
+    const vividness = calculateVividness(color.hex);
+    
+    let score = 0;
+    
+    // Strongly favor vibrant colors
+    if (color.keywords.includes("vibrant")) {
+      score += 100;
+    }
+    
+    // Favor jewel tones
+    if (color.keywords.includes("jewel")) {
+      score += 80;
+    }
+    
+    // Favor bright pastels
+    if (color.keywords.includes("pastel")) {
+      // Boost score for bright pastels (high lightness, good saturation)
+      if (l >= 75 && s >= 25) {
+        score += 90;
+      } else {
+        score += 60;
+      }
+    }
+    
+    // Bonus for high vividness (perceptually saturated)
+    score += vividness * 50;
+    
+    // Bonus for good saturation levels
+    if (s >= 60) {
+      score += 40;
+    } else if (s >= 40) {
+      score += 20;
+    }
+    
+    // Lightness sweet spots for different types
+    if (l >= 45 && l <= 75) {
+      // Good middle lightness range
+      score += 30;
+    } else if (l >= 75 && l <= 90) {
+      // Bright pastel range
+      score += 25;
+    }
+    
+    // Penalize very dark or very desaturated colors
+    if (l <= 25 && !color.keywords.includes("jewel")) {
+      score -= 30;
+    }
+    if (s <= 15) {
+      score -= 40;
+    }
+    
+    // Prefer specific appealing colors by name patterns
+    const appealingNames = [
+      'coral', 'turquoise', 'emerald', 'sapphire', 'ruby', 'crimson', 
+      'scarlet', 'gold', 'sunflower', 'spring', 'tropical', 'cherry',
+      'hibiscus', 'magenta', 'violet', 'rose quartz', 'peach', 'mint'
+    ];
+    
+    if (appealingNames.some(name => 
+      color.name.toLowerCase().includes(name) || 
+      color.keywords.some(kw => kw.includes(name))
+    )) {
+      score += 25;
+    }
+    
+    return { color, score };
+  });
+  
+  // Sort by score (highest first) and take the best colors
+  const sortedColors = scoredColors
+    .sort((a, b) => b.score - a.score)
+    .map(item => item.color)
+    .slice(0, maxColors);
+    
+  return sortedColors;
+}
+
+/**
+ * Select the most appealing neutral colors for the end of the rainbow display.
+ */
+function selectBestNeutrals(colors: Color[], maxColors: number): Color[] {
+  if (colors.length === 0) return [];
+  
+  const scoredColors = colors.map(color => {
+    const { s, l } = hexToHsl(color.hex);
+    let score = 0;
+    
+    // Prefer elegant neutrals
+    if (color.keywords.includes("light-neutrals")) {
+      // Elegant light colors
+      if (l >= 85) score += 60;
+      else if (l >= 70) score += 40;
+    }
+    
+    if (color.keywords.includes("muted")) {
+      score += 35;
+    }
+    
+    // Prefer some contrast variety in neutrals
+    if (l >= 80) score += 20; // Lights
+    else if (l <= 30) score += 15; // Darks
+    else score += 10; // Mediums
+    
+    // Prefer specific elegant names
+    const elegantNames = [
+      'pearl', 'silver', 'cream', 'ivory', 'champagne', 'platinum',
+      'charcoal', 'graphite', 'sage', 'stone', 'sea glass'
+    ];
+    
+    if (elegantNames.some(name => color.name.toLowerCase().includes(name))) {
+      score += 30;
+    }
+    
+    return { color, score };
+  });
+  
+  // Sort by score and take the best neutrals
+  const sortedColors = scoredColors
+    .sort((a, b) => b.score - a.score)
+    .map(item => item.color)
+    .slice(0, maxColors);
+    
+  return sortedColors;
+}
+
 export default function ColorDatabase() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedHue, setSelectedHue] = useState<HueFilter>("all");
@@ -113,21 +248,33 @@ export default function ColorDatabase() {
 
     // Sort in ROYGBIV pattern if showing all colors, all styles, and no custom sort
     if (selectedHue === "all" && selectedKeyword === "all" && selectedTemperature === "all" && selectedFamily === "all" && !debouncedSearch && sortBy === "none") {
-      const roygbivOrder = ["red", "orange", "yellow", "green", "blue", "purple", "pink", "neutral", "white", "black"];
+      const roygbivOrder = ["red", "orange", "yellow", "green", "blue", "purple", "pink"];
       
-      // Take first ~5 colors from each hue category for ROYGBIV pattern
+      // Enhanced color selection for beautiful rainbow display
       const roygbivColors: Color[] = [];
+      
       roygbivOrder.forEach(hue => {
-        const hueColors = filtered.filter(color => color.hue === hue).slice(0, 5);
-        roygbivColors.push(...hueColors);
+        const hueColors = filtered.filter(color => color.hue === hue);
+        
+        // Prioritize vibrant colors and bright pastels for rainbow display
+        const selectedColors = selectBestColorsForRainbow(hueColors, 6);
+        roygbivColors.push(...selectedColors);
       });
       
-      // Add remaining colors after ROYGBIV section
-      const remainingColors = filtered.filter(color => 
+      // Add a curated selection of neutrals at the end
+      const neutralColors = filtered.filter(color => 
+        ["neutral", "white", "black"].includes(color.hue) && 
         !roygbivColors.some(roygbiv => roygbiv.id === color.id)
       );
+      const selectedNeutrals = selectBestNeutrals(neutralColors, 12);
       
-      return [...roygbivColors, ...remainingColors];
+      // Add any remaining colors after ROYGBIV and neutrals section
+      const remainingColors = filtered.filter(color => 
+        !roygbivColors.some(roygbiv => roygbiv.id === color.id) &&
+        !selectedNeutrals.some(neutral => neutral.id === color.id)
+      );
+      
+      return [...roygbivColors, ...selectedNeutrals, ...remainingColors];
     }
 
     return filtered;
