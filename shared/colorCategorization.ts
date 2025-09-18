@@ -62,7 +62,8 @@ const LIGHTNESS_DESCRIPTORS = {
 
 // Saturation descriptors  
 const SATURATION_DESCRIPTORS = {
-  vibrant: ['vibrant', 'bright', 'bold', 'vivid', 'intense', 'rich', 'saturated', 'electric', 'neon', 'brilliant', 'burst', 'flash', 'glow'],
+  neon: ['neon', 'electric', 'fluorescent', 'glow', 'luminous', 'radioactive', 'laser', 'cyberpunk', 'day-glo', 'highlighter'],
+  vibrant: ['vibrant', 'bright', 'bold', 'vivid', 'intense', 'rich', 'saturated', 'brilliant', 'burst', 'flash', 'energetic', 'dynamic'],
   muted: ['muted', 'soft', 'subtle', 'pastel', 'pale', 'faded', 'washed', 'dusty', 'sage', 'powder', 'stone'],
   neutral: ['neutral', 'gray', 'grey', 'beige', 'cream', 'ivory', 'silver', 'charcoal']
 };
@@ -118,10 +119,12 @@ export function parseColorQuery(query: string): ParsedColorQuery {
   const uniqueLightness = Array.from(new Set(lightnessDescriptors));
   const uniqueSaturation = Array.from(new Set(saturationDescriptors));
   
-  // Consider query descriptive if it has at least one hue + descriptor, or multiple descriptors
+  // Consider query descriptive if it has at least one hue + descriptor, or multiple descriptors, or single saturation descriptors like "neon"
   const isDescriptive = (uniqueHues.length > 0 && (uniqueLightness.length > 0 || uniqueSaturation.length > 0)) || 
                        (uniqueLightness.length > 0 && uniqueSaturation.length > 0) ||
-                       (uniqueHues.length > 1);
+                       (uniqueHues.length > 1) ||
+                       (uniqueSaturation.length > 0) ||
+                       (uniqueLightness.length > 0);
   
   return {
     hues: uniqueHues,
@@ -254,6 +257,26 @@ function calculateSaturationScore(colorHsl: HSL, saturationDescriptors: string[]
     let score = 0;
     
     switch (descriptor) {
+      case 'neon':
+        // Neon colors have high saturation (70-100) and bright lightness (40-90)
+        const lightness = colorHsl.l;
+        if (saturation >= 80 && lightness >= 45 && lightness <= 80) {
+          // Perfect neon zone - ultra-saturated and bright
+          score = 0.9 + (saturation - 80) / 20 * 0.1; // Scale from 0.9 to 1.0
+        } else if (saturation >= 70 && lightness >= 35 && lightness <= 85) {
+          // Close to neon - high saturation and decent brightness
+          score = 0.6 + (saturation - 70) / 30 * 0.3; // Scale from 0.6 to 0.9
+        } else if (saturation >= 60 && lightness >= 30 && lightness <= 90) {
+          // Moderately neon - decent saturation and brightness
+          score = 0.4 + (saturation - 60) / 40 * 0.2; // Scale from 0.4 to 0.6
+        } else {
+          // Gradual falloff for colors that aren't saturated/bright enough
+          const satScore = Math.max(0, (saturation - 40) / 60);
+          const lightScore = lightness >= 25 && lightness <= 95 ? 1 : Math.max(0, 1 - Math.abs(lightness - 60) / 40);
+          score = Math.max(0, satScore * lightScore * 0.3);
+        }
+        break;
+        
       case 'vibrant':
         // Vibrant colors have high saturation (60-100)
         if (saturation >= 60) {
