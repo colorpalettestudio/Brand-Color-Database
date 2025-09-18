@@ -1,4 +1,4 @@
-# Brand Color Database
+# The Ultimate Brand Color Database
 
 ## Overview
 

@@ -23,8 +23,20 @@ export type Color = typeof colors.$inferSelect;
 export const hueFilterSchema = z.enum(["all", "red", "green", "blue", "yellow", "orange", "purple", "pink", "neutral", "white", "black"]);
 export const keywordFilterSchema = z.enum(["all", "pastel", "light-neutrals", "dark-neutrals", "muted", "jewel", "vibrant", "earthy"]);
 
+// Color temperature filter schema
+export const temperatureFilterSchema = z.enum(["all", "warm", "cool", "neutral"]);
+
+// Comprehensive color family filter schema
+export const familyFilterSchema = z.enum([
+  "all", "red", "orange", "yellow", "lime", "green", "teal", 
+  "cyan", "blue", "indigo", "violet", "magenta", "pink", 
+  "brown", "gray", "white", "black"
+]);
+
 export type HueFilter = z.infer<typeof hueFilterSchema>;
 export type KeywordFilter = z.infer<typeof keywordFilterSchema>;
+export type TemperatureFilter = z.infer<typeof temperatureFilterSchema>;
+export type FamilyFilter = z.infer<typeof familyFilterSchema>;
 
 // Color classification utilities
 export interface HSL {
@@ -306,4 +318,91 @@ export function generateSynonyms(hex: string, name: string, style: string): stri
   }
   
   return synonyms;
+}
+
+/**
+ * Classifies a color's temperature based on HSL values
+ * @param hex - Hex color string (e.g., "#FF5733")
+ * @returns "warm" | "cool" | "neutral"
+ */
+export function classifyColorTemperature(hex: string): "warm" | "cool" | "neutral" {
+  const { h, s, l } = hexToHsl(hex);
+  
+  // Neutral: low saturation OR very dark OR very light (captures grays/black/white)
+  if (s <= 12 || l <= 12 || l >= 92) {
+    return "neutral";
+  }
+  
+  // Warm: red-orange-yellow range with boundary handling
+  // Includes: [345..360] ∪ [0..105] ∪ [315..345)
+  if (h >= 345 || h <= 105 || (h >= 315 && h < 345)) {
+    return "warm";
+  }
+  
+  // Cool: green-blue-purple range [105..285] with boundary guards
+  if (h > 105 && h < 315) {
+    return "cool";
+  }
+  
+  // Fallback (should not reach here with proper hue ranges)
+  return "neutral";
+}
+
+/**
+ * Classifies a color into detailed family categories with precedence rules
+ * @param hex - Hex color string (e.g., "#FF5733")
+ * @returns Detailed color family classification
+ */
+export function classifyColorFamily(hex: string): "red" | "orange" | "yellow" | "lime" | "green" | "teal" | "cyan" | "blue" | "indigo" | "violet" | "magenta" | "pink" | "brown" | "gray" | "white" | "black" {
+  const { h, s, l } = hexToHsl(hex);
+  
+  // Precedence 1: White (very low saturation, very high lightness)
+  if (s <= 8 && l >= 94) {
+    return "white";
+  }
+  
+  // Precedence 2: Black (very low saturation, very low lightness)
+  if (s <= 10 && l <= 20) {
+    return "black";
+  }
+  
+  // Precedence 3: Gray (low saturation, medium lightness)
+  if (s <= 10 && l > 20 && l < 94) {
+    return "gray";
+  }
+  
+  // Precedence 4: Brown (warm hues with specific saturation/lightness ranges)
+  if (h >= 15 && h <= 60 && s >= 25 && s <= 60 && l >= 20 && l <= 55) {
+    return "brown";
+  }
+  
+  // Otherwise map hue ranges to 12 color families
+  if (h >= 345 || h < 15) {
+    return "red";
+  } else if (h >= 15 && h < 45) {
+    return "orange";
+  } else if (h >= 45 && h < 75) {
+    return "yellow";
+  } else if (h >= 75 && h < 105) {
+    return "lime";
+  } else if (h >= 105 && h < 135) {
+    return "green";
+  } else if (h >= 135 && h < 165) {
+    return "teal";
+  } else if (h >= 165 && h < 195) {
+    return "cyan";
+  } else if (h >= 195 && h < 225) {
+    return "blue";
+  } else if (h >= 225 && h < 255) {
+    return "indigo";
+  } else if (h >= 255 && h < 285) {
+    return "violet";
+  } else if (h >= 285 && h < 315) {
+    return "magenta";
+  } else if (h >= 315 && h < 345) {
+    return "pink";
+  }
+  
+  // Fallback to red (should not reach here with proper hue ranges)
+  return "red";
 }
