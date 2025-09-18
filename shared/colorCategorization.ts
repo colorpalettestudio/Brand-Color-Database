@@ -139,7 +139,7 @@ export function parseColorQuery(query: string): ParsedColorQuery {
  * Calculates how well a hue matches the queried hues
  */
 function calculateHueScore(colorHsl: HSL, queryHues: string[]): number {
-  if (queryHues.length === 0) return 1; // No hue preference
+  if (queryHues.length === 0) return 0; // No hue preference - should not contribute to score
   
   let maxScore = 0;
   
@@ -199,7 +199,7 @@ function calculateHueScore(colorHsl: HSL, queryHues: string[]): number {
  * Calculates how well a color's lightness matches the query
  */
 function calculateLightnessScore(colorHsl: HSL, lightnessDescriptors: string[]): number {
-  if (lightnessDescriptors.length === 0) return 1; // No lightness preference
+  if (lightnessDescriptors.length === 0) return 0; // No lightness preference - should not contribute to score
   
   let maxScore = 0;
   const lightness = colorHsl.l;
@@ -248,7 +248,7 @@ function calculateLightnessScore(colorHsl: HSL, lightnessDescriptors: string[]):
  * Calculates how well a color's saturation matches the query
  */
 function calculateSaturationScore(colorHsl: HSL, saturationDescriptors: string[]): number {
-  if (saturationDescriptors.length === 0) return 1; // No saturation preference
+  if (saturationDescriptors.length === 0) return 0; // No saturation preference - should not contribute to score
   
   let maxScore = 0;
   const saturation = colorHsl.s;
@@ -367,10 +367,13 @@ export function categorizeColors(colors: Color[], query: string): ColorScore[] {
 }
 
 /**
- * Utility function to get just the colors from scored results
+ * Utility function to get just the colors from scored results that meet minimum thresholds
  */
 export function getScoredColors(scoredColors: ColorScore[]): Color[] {
-  return scoredColors.map(scored => scored.color);
+  // Only return colors that have a meaningful total score (above 0.12 threshold)
+  // This filters out colors that don't actually match the search criteria
+  const relevantColors = scoredColors.filter(scored => scored.totalScore > 0.12);
+  return relevantColors.map(scored => scored.color);
 }
 
 /**

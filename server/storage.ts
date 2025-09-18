@@ -182,10 +182,11 @@ export class MemStorage implements IStorage {
     if (parsedQuery.isDescriptive) {
       // Use intelligent categorization system
       const scoredColors = categorizeColors(allColors, trimmedQuery);
+      const filteredResults = getScoredColors(scoredColors);
       
       // If categorization found matches, return them sorted by relevance
-      if (scoredColors.length > 0) {
-        return getScoredColors(scoredColors);
+      if (filteredResults.length > 0) {
+        return filteredResults;
       }
       
       // If no categorized matches found, fall through to string-based search

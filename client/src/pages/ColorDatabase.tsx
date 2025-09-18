@@ -139,7 +139,7 @@ export default function ColorDatabase() {
           <div className="flex items-center gap-4">
             <div className="hidden md:flex items-center gap-2 text-sm text-muted-foreground">
               <span data-testid="text-total-colors">
-                {allColors.length} colors
+                {filteredColors.length} colors
               </span>
               <span className="text-border">•</span>
               <span>Click any color to copy</span>

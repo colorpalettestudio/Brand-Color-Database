@@ -52,7 +52,7 @@ export default function ColorFilters({
     <div className="space-y-4 sm:space-y-6 p-3 sm:p-6 bg-card border-b border-border">
       {/* Search */}
       <div className="relative max-w-md">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4 pointer-events-none" />
         <Input
           type="search"
           placeholder="Search colors by name or hex..."
@@ -64,12 +64,12 @@ export default function ColorFilters({
         {searchQuery && (
           <Button
             variant="ghost"
-            size="sm"
+            size="icon"
             onClick={clearSearch}
-            className="absolute right-1 top-1/2 transform -translate-y-1/2 h-7 w-7 p-0"
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6"
             data-testid="button-clear-search"
           >
-            <X className="h-4 w-4" />
+            <X className="h-3 w-3" />
           </Button>
         )}
       </div>
