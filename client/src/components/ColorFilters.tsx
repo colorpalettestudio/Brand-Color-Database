@@ -49,7 +49,7 @@ export default function ColorFilters({
   const clearSearch = () => onSearchChange("");
 
   return (
-    <div className="space-y-6 p-6 bg-card border-b border-border">
+    <div className="space-y-4 sm:space-y-6 p-3 sm:p-6 bg-card border-b border-border">
       {/* Search */}
       <div className="relative max-w-md">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />

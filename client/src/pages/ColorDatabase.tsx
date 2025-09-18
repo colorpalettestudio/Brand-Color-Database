@@ -121,13 +121,14 @@ export default function ColorDatabase() {
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
             <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-primary/70">
               <Palette className="w-5 h-5 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold text-foreground" data-testid="text-app-title">
-                Brand Color Database
+              <h1 className="text-base sm:text-xl font-bold text-foreground leading-tight" data-testid="text-app-title">
+                <span className="block sm:inline">Brand Color</span>
+                <span className="block sm:inline sm:ml-1">Database</span>
               </h1>
               <p className="text-sm text-muted-foreground hidden sm:block">
                 Discover and copy 600+ curated brand colors
@@ -150,7 +151,7 @@ export default function ColorDatabase() {
       </header>
 
       {/* Filters */}
-      <div className="sticky top-16 z-40 bg-background border-b border-border">
+      <div className="md:sticky md:top-16 z-40 bg-background border-b border-border">
         <div className="container mx-auto px-4">
           <ColorFilters
             searchQuery={searchQuery}
