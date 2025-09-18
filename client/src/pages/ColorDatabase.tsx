@@ -33,8 +33,34 @@ function calculateVividness(hex: string): number {
 }
 
 /**
+ * Calculate similarity between two hex colors using RGB distance
+ */
+function calculateColorSimilarity(hex1: string, hex2: string): number {
+  const rgb1 = {
+    r: parseInt(hex1.slice(1, 3), 16),
+    g: parseInt(hex1.slice(3, 5), 16), 
+    b: parseInt(hex1.slice(5, 7), 16)
+  };
+  const rgb2 = {
+    r: parseInt(hex2.slice(1, 3), 16),
+    g: parseInt(hex2.slice(3, 5), 16),
+    b: parseInt(hex2.slice(5, 7), 16)
+  };
+  
+  // Calculate Euclidean distance in RGB space
+  const distance = Math.sqrt(
+    Math.pow(rgb1.r - rgb2.r, 2) + 
+    Math.pow(rgb1.g - rgb2.g, 2) + 
+    Math.pow(rgb1.b - rgb2.b, 2)
+  );
+  
+  // Return similarity (lower distance = higher similarity)
+  return distance;
+}
+
+/**
  * Enhanced color selection for beautiful rainbow display.
- * Prioritizes vibrant colors and bright pastels with sophisticated scoring.
+ * Balances vibrant colors and pastels while avoiding very similar colors.
  */
 function selectBestColorsForRainbow(colors: Color[], maxColors: number): Color[] {
   if (colors.length === 0) return [];
@@ -46,43 +72,45 @@ function selectBestColorsForRainbow(colors: Color[], maxColors: number): Color[]
     
     let score = 0;
     
-    // Strongly favor vibrant colors
-    if (color.keywords.includes("vibrant")) {
-      score += 100;
-    }
-    
-    // Favor jewel tones
-    if (color.keywords.includes("jewel")) {
-      score += 80;
-    }
-    
-    // Favor bright pastels
+    // Boost pastels more to get better balance
     if (color.keywords.includes("pastel")) {
-      // Boost score for bright pastels (high lightness, good saturation)
+      // Higher boost for bright pastels
       if (l >= 75 && s >= 25) {
-        score += 90;
+        score += 110; // Increased from 90
+      } else if (l >= 70 && s >= 15) {
+        score += 85; // Good pastels
       } else {
         score += 60;
       }
     }
     
+    // Reduce vibrant color dominance slightly
+    if (color.keywords.includes("vibrant")) {
+      score += 85; // Reduced from 100
+    }
+    
+    // Favor jewel tones but less than before
+    if (color.keywords.includes("jewel")) {
+      score += 75; // Reduced from 80
+    }
+    
     // Bonus for high vividness (perceptually saturated)
-    score += vividness * 50;
+    score += vividness * 45; // Slightly reduced from 50
     
     // Bonus for good saturation levels
     if (s >= 60) {
-      score += 40;
+      score += 35; // Reduced from 40
     } else if (s >= 40) {
       score += 20;
     }
     
-    // Lightness sweet spots for different types
-    if (l >= 45 && l <= 75) {
+    // Lightness sweet spots - boost pastels more
+    if (l >= 75 && l <= 90) {
+      // Bright pastel range - increased bonus
+      score += 40; // Increased from 25
+    } else if (l >= 45 && l <= 75) {
       // Good middle lightness range
-      score += 30;
-    } else if (l >= 75 && l <= 90) {
-      // Bright pastel range
-      score += 25;
+      score += 25; // Reduced from 30
     }
     
     // Penalize very dark or very desaturated colors
@@ -97,12 +125,13 @@ function selectBestColorsForRainbow(colors: Color[], maxColors: number): Color[]
     const appealingNames = [
       'coral', 'turquoise', 'emerald', 'sapphire', 'ruby', 'crimson', 
       'scarlet', 'gold', 'sunflower', 'spring', 'tropical', 'cherry',
-      'hibiscus', 'magenta', 'violet', 'rose quartz', 'peach', 'mint'
+      'hibiscus', 'magenta', 'violet', 'rose quartz', 'peach', 'mint',
+      'lavender', 'blush', 'sky', 'powder'  // Added more pastel-friendly names
     ];
     
     if (appealingNames.some(name => 
       color.name.toLowerCase().includes(name) || 
-      color.keywords.some(kw => kw.includes(name))
+      color.keywords.some(kw => kw.toLowerCase().includes(name))
     )) {
       score += 25;
     }
@@ -110,13 +139,29 @@ function selectBestColorsForRainbow(colors: Color[], maxColors: number): Color[]
     return { color, score };
   });
   
-  // Sort by score (highest first) and take the best colors
-  const sortedColors = scoredColors
-    .sort((a, b) => b.score - a.score)
-    .map(item => item.color)
-    .slice(0, maxColors);
+  // Sort by score (highest first)
+  const sortedColorData = scoredColors.sort((a, b) => b.score - a.score);
+  
+  // Select colors while avoiding very similar ones
+  const selectedColors: Color[] = [];
+  const SIMILARITY_THRESHOLD = 30; // Colors closer than this are considered too similar
+  
+  for (const colorData of sortedColorData) {
+    if (selectedColors.length >= maxColors) break;
     
-  return sortedColors;
+    const { color } = colorData;
+    
+    // Check if this color is too similar to any already selected color
+    const isTooSimilar = selectedColors.some(selectedColor => 
+      calculateColorSimilarity(color.hex, selectedColor.hex) < SIMILARITY_THRESHOLD
+    );
+    
+    if (!isTooSimilar) {
+      selectedColors.push(color);
+    }
+  }
+  
+  return selectedColors;
 }
 
 /**
