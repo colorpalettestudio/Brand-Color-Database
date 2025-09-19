@@ -385,19 +385,6 @@ export default function ColorDatabase() {
         />
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-card mt-16">
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center space-y-2">
-            <p className="text-sm text-muted-foreground">
-              Brand Color Database - Find perfect colors for your projects
-            </p>
-            <p className="text-xs text-muted-foreground">
-              All colors are carefully curated for design and branding use
-            </p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
