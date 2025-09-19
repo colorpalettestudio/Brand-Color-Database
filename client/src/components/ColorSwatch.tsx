@@ -14,20 +14,58 @@ export default function ColorSwatch({ color, size = "md", showInfo = true }: Col
   const [copied, setCopied] = useState(false);
 
   const copyToClipboard = async () => {
-    try {
-      await navigator.clipboard.writeText(color.hex);
+    let success = false;
+    
+    // Try modern clipboard API first
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(color.hex);
+        success = true;
+      } catch (error) {
+        // Fallback to legacy method
+        success = fallbackCopyToClipboard(color.hex);
+      }
+    } else {
+      // Use fallback for older browsers or insecure contexts
+      success = fallbackCopyToClipboard(color.hex);
+    }
+    
+    if (success) {
       setCopied(true);
       toast({
         title: "Color copied!",
         description: `${color.hex} copied to clipboard`,
       });
       setTimeout(() => setCopied(false), 2000);
-    } catch (error) {
+    } else {
       toast({
         title: "Copy failed",
         description: "Could not copy to clipboard",
         variant: "destructive",
       });
+    }
+  };
+
+  const fallbackCopyToClipboard = (text: string): boolean => {
+    try {
+      // Create a temporary textarea element
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      textarea.style.pointerEvents = 'none';
+      
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      
+      // Try to copy using execCommand
+      const successful = document.execCommand('copy');
+      document.body.removeChild(textarea);
+      
+      return successful;
+    } catch (error) {
+      return false;
     }
   };
 
