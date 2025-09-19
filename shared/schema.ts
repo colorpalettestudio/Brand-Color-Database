@@ -279,15 +279,77 @@ export function generateProperColorName(hex: string, usedNames: Set<string> = ne
       if (l >= 70) uniqueName = `${baseName} Shine`;
       else if (l >= 40) uniqueName = `${baseName} Shadow`;
       else uniqueName = `${baseName} Deep`;
+    } else if (counter === 6) {
+      // Fifth variation - add texture/material-based suffixes
+      if (s >= 60) uniqueName = `${baseName} Crystal`;
+      else if (s >= 40) uniqueName = `${baseName} Silk`;
+      else if (l >= 70) uniqueName = `${baseName} Pearl`;
+      else uniqueName = `${baseName} Velvet`;
+    } else if (counter === 7) {
+      // Sixth variation - add nature-inspired suffixes
+      if (h >= 0 && h < 60) uniqueName = `${baseName} Sunset`;
+      else if (h >= 60 && h < 120) uniqueName = `${baseName} Forest`;
+      else if (h >= 120 && h < 180) uniqueName = `${baseName} Ocean`;
+      else if (h >= 180 && h < 240) uniqueName = `${baseName} Storm`;
+      else if (h >= 240 && h < 300) uniqueName = `${baseName} Twilight`;
+      else uniqueName = `${baseName} Dawn`;
+    } else if (counter === 8) {
+      // Seventh variation - add gem/mineral suffixes
+      if (l >= 70) uniqueName = `${baseName} Opal`;
+      else if (s >= 60) uniqueName = `${baseName} Garnet`;
+      else if (l <= 30) uniqueName = `${baseName} Obsidian`;
+      else uniqueName = `${baseName} Quartz`;
+    } else if (counter === 9) {
+      // Eighth variation - add artistic/paint suffixes
+      if (s >= 70) uniqueName = `${baseName} Paint`;
+      else if (l >= 70) uniqueName = `${baseName} Wash`;
+      else if (l <= 30) uniqueName = `${baseName} Ink`;
+      else uniqueName = `${baseName} Pigment`;
+    } else if (counter === 10) {
+      // Ninth variation - add floral suffixes
+      if (h >= 300 || h < 30) uniqueName = `${baseName} Blossom`;
+      else if (h >= 30 && h < 90) uniqueName = `${baseName} Petal`;
+      else if (h >= 90 && h < 150) uniqueName = `${baseName} Bloom`;
+      else if (h >= 150 && h < 210) uniqueName = `${baseName} Flower`;
+      else if (h >= 210 && h < 270) uniqueName = `${baseName} Iris`;
+      else uniqueName = `${baseName} Lily`;
+    } else if (counter === 11) {
+      // Tenth variation - add seasonal suffixes
+      if (h >= 45 && h < 135) uniqueName = `${baseName} Spring`;
+      else if (h >= 135 && h < 225) uniqueName = `${baseName} Summer`;
+      else if (h >= 225 && h < 315) uniqueName = `${baseName} Autumn`;
+      else uniqueName = `${baseName} Winter`;
+    } else if (counter === 12) {
+      // Eleventh variation - add elemental suffixes
+      if (h >= 0 && h < 90) uniqueName = `${baseName} Fire`;
+      else if (h >= 90 && h < 180) uniqueName = `${baseName} Earth`;
+      else if (h >= 180 && h < 270) uniqueName = `${baseName} Water`;
+      else uniqueName = `${baseName} Air`;
+    } else if (counter === 13) {
+      // Twelfth variation - add intensity prefixes
+      if (l >= 70) uniqueName = `Bright ${baseName}`;
+      else if (l <= 30) uniqueName = `Deep ${baseName}`;
+      else if (s >= 60) uniqueName = `Pure ${baseName}`;
+      else uniqueName = `Muted ${baseName}`;
+    } else if (counter === 14) {
+      // Thirteenth variation - add mood/feeling suffixes
+      if (s >= 60) uniqueName = `${baseName} Joy`;
+      else if (l >= 70) uniqueName = `${baseName} Calm`;
+      else if (l <= 30) uniqueName = `${baseName} Mystery`;
+      else uniqueName = `${baseName} Serenity`;
     } else {
-      // Final fallback - use Roman numerals
-      const romanNumerals = ['', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
-      const romanIndex = counter - 5; // Start Roman numerals after other variations
-      if (romanIndex < romanNumerals.length) {
-        uniqueName = `${baseName} ${romanNumerals[romanIndex]}`;
-      } else {
-        uniqueName = `${baseName} ${counter - 4}`; // Fallback to numbers
-      }
+      // Final creative fallback - use descriptive combinations
+      const creativeNames = [
+        `${baseName} Whisper`, `${baseName} Echo`, `${baseName} Spirit`, `${baseName} Essence`,
+        `${baseName} Breeze`, `${baseName} Haze`, `${baseName} Aura`, `${baseName} Vision`,
+        `${baseName} Dream`, `${baseName} Magic`, `${baseName} Wonder`, `${baseName} Grace`,
+        `Ethereal ${baseName}`, `Mystic ${baseName}`, `Cosmic ${baseName}`, `Divine ${baseName}`,
+        `Royal ${baseName}`, `Noble ${baseName}`, `Grand ${baseName}`, `Majestic ${baseName}`,
+        `${baseName} Harmony`, `${baseName} Symphony`, `${baseName} Melody`, `${baseName} Rhythm`,
+        `${baseName} Sparkle`, `${baseName} Shimmer`, `${baseName} Gleam`, `${baseName} Radiance`
+      ];
+      const nameIndex = (counter - 15) % creativeNames.length;
+      uniqueName = creativeNames[nameIndex];
     }
   }
   
