@@ -16,16 +16,19 @@ export default function ColorSwatch({ color, size = "md", showInfo = true }: Col
   const copyToClipboard = async () => {
     let success = false;
     
-    // Try modern clipboard API first
+    // Try modern clipboard API first (this should work in most modern browsers)
     if (navigator.clipboard && window.isSecureContext) {
       try {
         await navigator.clipboard.writeText(color.hex);
         success = true;
+        console.log('Used modern clipboard API'); // Debug
       } catch (error) {
+        console.log('Modern clipboard failed, using fallback:', error); // Debug
         // Fallback to legacy method
         success = fallbackCopyToClipboard(color.hex);
       }
     } else {
+      console.log('Using fallback - no modern clipboard API or insecure context'); // Debug
       // Use fallback for older browsers or insecure contexts
       success = fallbackCopyToClipboard(color.hex);
     }
@@ -51,16 +54,39 @@ export default function ColorSwatch({ color, size = "md", showInfo = true }: Col
       // Create a temporary textarea element
       const textarea = document.createElement('textarea');
       textarea.value = text;
-      textarea.style.position = 'fixed';
-      textarea.style.opacity = '0';
-      textarea.style.pointerEvents = 'none';
+      
+      // Position it completely out of view and make it invisible
+      textarea.style.cssText = `
+        position: fixed !important;
+        top: -9999px !important;
+        left: -9999px !important;
+        width: 1px !important;
+        height: 1px !important;
+        padding: 0 !important;
+        border: none !important;
+        outline: none !important;
+        boxShadow: none !important;
+        background: transparent !important;
+        opacity: 0 !important;
+        pointer-events: none !important;
+        z-index: -9999 !important;
+        user-select: text !important;
+      `;
+      
+      textarea.setAttribute('readonly', 'true');
+      textarea.setAttribute('aria-hidden', 'true');
+      textarea.setAttribute('tabindex', '-1');
       
       document.body.appendChild(textarea);
-      textarea.focus();
+      
+      // Focus without scrolling and select text
+      textarea.focus({ preventScroll: true });
       textarea.select();
       
       // Try to copy using execCommand
       const successful = document.execCommand('copy');
+      
+      // Clean up
       document.body.removeChild(textarea);
       
       return successful;
@@ -111,6 +137,7 @@ export default function ColorSwatch({ color, size = "md", showInfo = true }: Col
         )}
         style={{ backgroundColor: color.hex }}
         onClick={copyToClipboard}
+        onMouseDown={(e) => e.preventDefault()} // Prevent incidental focus shifts
         data-testid={`swatch-${color.id}`}
       >
         {/* Hover overlay with copy icon */}
