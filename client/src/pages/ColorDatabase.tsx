@@ -4,8 +4,8 @@ import ColorFilters from "@/components/ColorFilters";
 import ColorGrid from "@/components/ColorGrid";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Palette } from "lucide-react";
-import type { Color, HueFilter, KeywordFilter, TemperatureFilter, FamilyFilter } from "@shared/schema";
-import { hexToHsl, classifyColorTemperature, classifyColorFamily } from "@shared/schema";
+import type { Color, HueFilter, KeywordFilter } from "@shared/schema";
+import { hexToHsl } from "@shared/schema";
 
 /**
  * Calculate vividness (perceived saturation) using HSV instead of HSL.
@@ -216,8 +216,6 @@ export default function ColorDatabase() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedHue, setSelectedHue] = useState<HueFilter>("all");
   const [selectedKeyword, setSelectedKeyword] = useState<KeywordFilter>("all");
-  const [selectedTemperature, setSelectedTemperature] = useState<TemperatureFilter>("all");
-  const [selectedFamily, setSelectedFamily] = useState<FamilyFilter>("all");
   const [debouncedSearch, setDebouncedSearch] = useState("");
   
   // Sort options state
@@ -254,21 +252,6 @@ export default function ColorDatabase() {
       filtered = filtered.filter(color => color.keywords.includes(selectedKeyword));
     }
 
-    // Apply temperature filter
-    if (selectedTemperature !== "all") {
-      filtered = filtered.filter(color => {
-        const colorTemperature = classifyColorTemperature(color.hex);
-        return colorTemperature === selectedTemperature;
-      });
-    }
-
-    // Apply family filter
-    if (selectedFamily !== "all") {
-      filtered = filtered.filter(color => {
-        const colorFamily = classifyColorFamily(color.hex);
-        return colorFamily === selectedFamily;
-      });
-    }
 
     // Apply sorting (if specified)
     if (sortBy !== "none") {
@@ -292,7 +275,7 @@ export default function ColorDatabase() {
     }
 
     // Sort in ROYGBIV pattern if showing all colors, all styles, and no custom sort
-    if (selectedHue === "all" && selectedKeyword === "all" && selectedTemperature === "all" && selectedFamily === "all" && !debouncedSearch && sortBy === "none") {
+    if (selectedHue === "all" && selectedKeyword === "all" && !debouncedSearch && sortBy === "none") {
       const roygbivOrder = ["red", "orange", "yellow", "green", "blue", "purple", "pink"];
       
       // Enhanced color selection for beautiful rainbow display
@@ -323,12 +306,12 @@ export default function ColorDatabase() {
     }
 
     return filtered;
-  }, [allColors, debouncedSearch, selectedHue, selectedKeyword, selectedTemperature, selectedFamily, sortBy]);
+  }, [allColors, debouncedSearch, selectedHue, selectedKeyword, sortBy]);
 
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="border-b border-border bg-background">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="text-2xl">
@@ -358,7 +341,7 @@ export default function ColorDatabase() {
       </header>
 
       {/* Filters */}
-      <div className="md:sticky md:top-16 z-40 bg-background border-b border-border">
+      <div className="bg-background border-b border-border">
         <div className="container mx-auto px-4">
           <ColorFilters
             searchQuery={searchQuery}
@@ -367,10 +350,6 @@ export default function ColorDatabase() {
             onHueChange={setSelectedHue}
             selectedKeyword={selectedKeyword}
             onKeywordChange={setSelectedKeyword}
-            selectedTemperature={selectedTemperature}
-            onTemperatureChange={setSelectedTemperature}
-            selectedFamily={selectedFamily}
-            onFamilyChange={setSelectedFamily}
           />
         </div>
       </div>

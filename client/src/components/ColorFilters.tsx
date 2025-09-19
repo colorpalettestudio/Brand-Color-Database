@@ -1,8 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -15,10 +12,6 @@ interface ColorFiltersProps {
   onHueChange: (hue: HueFilter) => void;
   selectedKeyword: KeywordFilter;
   onKeywordChange: (keyword: KeywordFilter) => void;
-  selectedTemperature: TemperatureFilter;
-  onTemperatureChange: (value: TemperatureFilter) => void;
-  selectedFamily: FamilyFilter;
-  onFamilyChange: (value: FamilyFilter) => void;
 }
 
 const hueOptions: { value: HueFilter; label: string; color: string }[] = [
@@ -46,32 +39,6 @@ const keywordOptions: { value: KeywordFilter; label: string }[] = [
   { value: "earthy", label: "Earthy" },
 ];
 
-const temperatureOptions: { value: TemperatureFilter; label: string }[] = [
-  { value: "all", label: "All" },
-  { value: "warm", label: "Warm" },
-  { value: "cool", label: "Cool" },
-  { value: "neutral", label: "Neutral" },
-];
-
-const familyOptions: { value: FamilyFilter; label: string }[] = [
-  { value: "all", label: "All" },
-  { value: "red", label: "Red" },
-  { value: "orange", label: "Orange" },
-  { value: "yellow", label: "Yellow" },
-  { value: "lime", label: "Lime" },
-  { value: "green", label: "Green" },
-  { value: "teal", label: "Teal" },
-  { value: "cyan", label: "Cyan" },
-  { value: "blue", label: "Blue" },
-  { value: "indigo", label: "Indigo" },
-  { value: "violet", label: "Violet" },
-  { value: "magenta", label: "Magenta" },
-  { value: "pink", label: "Pink" },
-  { value: "brown", label: "Brown" },
-  { value: "gray", label: "Gray" },
-  { value: "white", label: "White" },
-  { value: "black", label: "Black" },
-];
 
 export default function ColorFilters({
   searchQuery,
@@ -80,10 +47,6 @@ export default function ColorFilters({
   onHueChange,
   selectedKeyword,
   onKeywordChange,
-  selectedTemperature,
-  onTemperatureChange,
-  selectedFamily,
-  onFamilyChange,
 }: ColorFiltersProps) {
   const clearSearch = () => onSearchChange("");
 
@@ -160,79 +123,11 @@ export default function ColorFilters({
           </div>
         </div>
 
-        {/* Advanced Filters */}
-        <Accordion type="single" collapsible className="border border-border rounded-md">
-          <AccordionItem value="advanced-filters" className="border-none">
-            <AccordionTrigger 
-              className="px-4 py-3 text-sm font-medium text-foreground hover:no-underline"
-              data-testid="accordion-trigger-advanced-filters"
-            >
-              Advanced filters
-            </AccordionTrigger>
-            <AccordionContent className="px-4 pb-4">
-              <div className="space-y-4">
-                {/* Temperature Filter */}
-                <div className="space-y-3">
-                  <Label className="text-sm font-medium text-foreground">Temperature</Label>
-                  <RadioGroup 
-                    value={selectedTemperature} 
-                    onValueChange={onTemperatureChange}
-                    className="flex flex-wrap gap-4"
-                    data-testid="radio-group-temperature"
-                  >
-                    {temperatureOptions.map((option) => (
-                      <div key={option.value} className="flex items-center space-x-2">
-                        <RadioGroupItem 
-                          value={option.value} 
-                          id={`temperature-${option.value}`}
-                          data-testid={`radio-temperature-${option.value}`}
-                        />
-                        <Label 
-                          htmlFor={`temperature-${option.value}`} 
-                          className="text-sm cursor-pointer"
-                        >
-                          {option.label}
-                        </Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
-                </div>
-
-                {/* Color Family Filter */}
-                <div className="space-y-3">
-                  <Label className="text-sm font-medium text-foreground">Color Family</Label>
-                  <Select 
-                    value={selectedFamily} 
-                    onValueChange={onFamilyChange}
-                  >
-                    <SelectTrigger 
-                      className="w-full max-w-xs"
-                      data-testid="select-trigger-family"
-                    >
-                      <SelectValue placeholder="Select a color family" />
-                    </SelectTrigger>
-                    <SelectContent data-testid="select-content-family">
-                      {familyOptions.map((option) => (
-                        <SelectItem 
-                          key={option.value} 
-                          value={option.value}
-                          data-testid={`select-item-family-${option.value}`}
-                        >
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
 
       </div>
 
       {/* Active Filters Summary */}
-      {(selectedHue !== "all" || selectedKeyword !== "all" || selectedTemperature !== "all" || selectedFamily !== "all" || searchQuery) && (
+      {(selectedHue !== "all" || selectedKeyword !== "all" || searchQuery) && (
         <div className="flex items-center gap-2 pt-2 border-t border-border">
           <span className="text-sm text-muted-foreground">Active filters:</span>
           {selectedHue !== "all" && (
@@ -243,16 +138,6 @@ export default function ColorFilters({
           {selectedKeyword !== "all" && (
             <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
               {keywordOptions.find(k => k.value === selectedKeyword)?.label}
-            </span>
-          )}
-          {selectedTemperature !== "all" && (
-            <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
-              {temperatureOptions.find(t => t.value === selectedTemperature)?.label}
-            </span>
-          )}
-          {selectedFamily !== "all" && (
-            <span className="inline-flex items-center rounded-full bg-primary/10 px-2 py-1 text-xs font-medium text-primary">
-              {familyOptions.find(f => f.value === selectedFamily)?.label}
             </span>
           )}
           {searchQuery && (
