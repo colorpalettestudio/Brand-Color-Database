@@ -1,8 +1,8 @@
-import { type Color, type InsertColor, classifyColorStyle, generateSynonyms, generateProperColorName, hexToHsl } from "@shared/schema";
-import { isValidHexColor, findSimilarColors } from "@shared/colorSimilarity";
-import { categorizeColors, parseColorQuery, getScoredColors } from "@shared/colorCategorization";
+import { type Color, type InsertColor, classifyColorStyle, generateSynonyms, generateProperColorName, hexToHsl } from "../shared/schema.js";
+import { isValidHexColor, findSimilarColors } from "../shared/colorSimilarity.js";
+import { categorizeColors, parseColorQuery, getScoredColors } from "../shared/colorCategorization.js";
 import { randomUUID } from "crypto";
-import colorSeedData from "@shared/colors.seed.json";
+import colorSeedData from "../shared/colors.seed.json" with { type: "json" };
 
 // Color database for brand colors
 export interface IStorage {

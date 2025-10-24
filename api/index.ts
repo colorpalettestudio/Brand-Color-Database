@@ -1,6 +1,6 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { MemStorage } from "../server/storage";
-import { insertColorSchema } from "../shared/schema";
+import { MemStorage } from "../server/storage.js";
+import { insertColorSchema } from "../shared/schema.js";
 import { z } from "zod";
 
 // Initialize storage once

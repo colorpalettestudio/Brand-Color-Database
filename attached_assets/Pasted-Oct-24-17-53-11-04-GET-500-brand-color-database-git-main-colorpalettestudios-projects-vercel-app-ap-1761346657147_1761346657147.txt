@@ -1,0 +1,144 @@
+Oct 24 17:53:11.04
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+ReferenceError: exports is not defined in ES module scope This file is being treated as an ES module because it has a '.js' file extension and '/var/task/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension. at file:///var/task/api/index.js:2:23 at ModuleJob.run (node:internal/modules/esm/module_job:343:25) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26) at async d (/opt/rust/nodejs.js:16:21178) Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:51:44.19
+GET
+500
+brand-color-database-f4ly8iaqa-colorpalettestudios-projects.vercel.app
+/api/colors
+ReferenceError: exports is not defined in ES module scope This file is being treated as an ES module because it has a '.js' file extension and '/var/task/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension. at file:///var/task/api/index.js:2:23 at ModuleJob.run (node:internal/modules/esm/module_job:343:25) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26) at async d (/opt/rust/nodejs.js:16:21178) Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:51:44.16
+GET
+500
+brand-color-database-f4ly8iaqa-colorpalettestudios-projects.vercel.app
+/api/colors
+ReferenceError: exports is not defined in ES module scope This file is being treated as an ES module because it has a '.js' file extension and '/var/task/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension. at file:///var/task/api/index.js:2:23 at ModuleJob.run (node:internal/modules/esm/module_job:343:25) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:647:26) at async d (/opt/rust/nodejs.js:16:21178) Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:44:06.40
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:43:09.44
+GET
+500
+brand-color-database-3zjukbs5s-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:43:09.37
+GET
+500
+brand-color-database-3zjukbs5s-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:41:58.36
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:37:22.35
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:37:20.85
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:37:19.14
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:37:16.28
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:37:07.05
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:36:51.34
+GET
+500
+brand-color-database-54uw4kxa2-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:36:51.22
+GET
+500
+brand-color-database-54uw4kxa2-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue. Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/var/task/server/storage' imported from /var/task/api/index.js at finalizeResolution (node:internal/modules/esm/resolve:280:11) at moduleResolve (node:internal/modules/esm/resolve:865:10) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) at process.processTicksAndRejections (node:internal/process/task_queues:105:5) { code: 'ERR_MODULE_NOT_FOUND', url: 'file:///var/task/server/storage' } Node.js process exited with exit status: 1. The logs above can help with debugging the issue.
+Oct 24 17:36:46.78
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema' imported from /var/task/server/storage.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:255:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) { code: 'ERR_MODULE_NOT_FOUND' }
+Oct 24 17:36:41.16
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema' imported from /var/task/server/storage.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:255:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) { code: 'ERR_MODULE_NOT_FOUND' }
+Oct 24 17:36:30.82
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema' imported from /var/task/server/storage.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:255:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) { code: 'ERR_MODULE_NOT_FOUND' }
+Oct 24 17:36:29.28
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema' imported from /var/task/server/storage.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:255:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) { code: 'ERR_MODULE_NOT_FOUND' }
+Oct 24 17:36:27.51
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema' imported from /var/task/server/storage.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:255:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) { code: 'ERR_MODULE_NOT_FOUND' }
+Oct 24 17:36:25.56
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema' imported from /var/task/server/storage.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:255:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) { code: 'ERR_MODULE_NOT_FOUND' }
+Oct 24 17:36:22.08
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema' imported from /var/task/server/storage.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:255:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) { code: 'ERR_MODULE_NOT_FOUND' }
+Oct 24 17:31:10.75
+GET
+500
+brand-color-database-git-main-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema' imported from /var/task/server/storage.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:255:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) { code: 'ERR_MODULE_NOT_FOUND' }
+Oct 24 17:30:26.80
+GET
+500
+brand-color-database-nwb8fmugn-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema' imported from /var/task/server/storage.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:255:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) { code: 'ERR_MODULE_NOT_FOUND' }
+Oct 24 17:30:26.71
+GET
+500
+brand-color-database-nwb8fmugn-colorpalettestudios-projects.vercel.app
+/api/colors
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package '@shared/schema' imported from /var/task/server/storage.js at Object.getPackageJSONURL (node:internal/modules/package_json_reader:255:9) at packageResolve (node:internal/modules/esm/resolve:773:81) at moduleResolve (node:internal/modules/esm/resolve:859:18) at moduleResolveWithNodePath (node:internal/modules/esm/resolve:989:14) at defaultResolve (node:internal/modules/esm/resolve:1032:79) at ModuleLoader.defaultResolve (node:internal/modules/esm/loader:783:12) at #cachedDefaultResolve (node:internal/modules/esm/loader:707:25) at ModuleLoader.resolve (node:internal/modules/esm/loader:690:38) at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:307:38) at ModuleJob._link (node:internal/modules/esm/module_job:183:49) { code: 'ERR_MODULE_NOT_FOUND' }
