@@ -9,9 +9,8 @@ Your app has been configured to work with Vercel's serverless platform. Here's w
 ### Files Created/Modified
 
 1. **`vercel.json`** - Vercel configuration file that tells Vercel how to build and deploy your app
-2. **`api/serverless.ts`** - Serverless function handler for your Express backend
-3. **`api/index.js`** - Entry point for the serverless function
-4. **`.vercelignore`** - Files to ignore during deployment
+2. **`api/index.ts`** - Serverless function handler for your Express backend (handles all `/api/*` routes)
+3. **`.vercelignore`** - Files to ignore during deployment
 
 ## Deployment Steps
 
