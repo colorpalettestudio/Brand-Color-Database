@@ -10,22 +10,26 @@ I've converted all imports to use relative paths (no path aliases) and ensured p
 
 ### What Changed
 
-1. **Fixed `server/storage.ts`** - Changed path aliases to relative imports:
+1. **Fixed `server/storage.ts`** - Changed path aliases to relative imports with `.js` extensions:
    - `@shared/schema` → `../shared/schema.js`
    - `@shared/colorSimilarity` → `../shared/colorSimilarity.js`
    - `@shared/colorCategorization` → `../shared/colorCategorization.js`
    - `@shared/colors.seed.json` → `../shared/colors.seed.json` with JSON assertion
-   - Added `.js` extensions to all imports (required for ESM)
+   - All ESM imports now have `.js` extensions (required for Node.js ESM)
 
 2. **Fixed `api/index.ts`** - Updated to use relative imports with `.js` extensions:
    - `../server/storage.js`
    - `../shared/schema.js`
 
-3. **Removed `api/tsconfig.json`** - Was causing CommonJS compilation issues
+3. **Fixed `shared/colorCategorization.ts`** - Added `.js` extension to local import:
+   - `./schema` → `./schema.js`
+   - This was causing "Cannot find module" errors in Vercel's serverless environment
 
-4. **Simplified `vercel.json`** - Removed the `functions` configuration that was causing conflicts
+4. **Removed `api/tsconfig.json`** - Was causing CommonJS compilation issues
 
-5. **Updated main `tsconfig.json`** - Already had `resolveJsonModule: true` for JSON imports
+5. **Simplified `vercel.json`** - Removed the `functions` configuration that was causing conflicts
+
+6. **Updated main `tsconfig.json`** - Already had `resolveJsonModule: true` for JSON imports
 
 ## How to Deploy
 

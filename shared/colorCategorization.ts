@@ -1,4 +1,4 @@
-import { type Color, type HSL, hexToHsl } from "./schema";
+import { type Color, type HSL, hexToHsl } from "./schema.js";
 
 // Query parsing interfaces
 export interface ParsedColorQuery {
