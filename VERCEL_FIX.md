@@ -1,10 +1,12 @@
-# Vercel Deployment Fix
+# Vercel Deployment Fix (Updated)
 
 ## Problem
-The app was showing "No colors found" and returning a 500 error from `/api/colors` because the serverless function wasn't properly configured to import the necessary dependencies in Vercel's environment.
+The app was showing "No colors found" and returning a 500 error from `/api/colors` because:
+1. The serverless function couldn't import the JSON seed data file
+2. TypeScript configuration wasn't optimized for Vercel's build process
 
 ## Solution
-I've completely restructured the serverless function to work properly with Vercel:
+I've fixed the configuration to properly include all necessary files in the serverless build:
 
 ### What Changed
 
@@ -14,9 +16,16 @@ I've completely restructured the serverless function to work properly with Verce
    - Initializes storage once and reuses it across requests
    - Properly handles errors and returns appropriate status codes
 
-2. **Simplified `vercel.json`** - Updated to route all `/api/*` requests to the new handler
+2. **Updated `vercel.json`** - Added `includeFiles` configuration:
+   - Ensures the `shared/colors.seed.json` file is included in the serverless function
+   - Routes all `/api/*` requests to the handler
 
-3. **Removed problematic files** - Deleted the old `api/serverless.ts` and `api/index.js` that were causing import issues
+3. **Fixed TypeScript configuration**:
+   - Added `resolveJsonModule: true` to main `tsconfig.json`
+   - Created `api/tsconfig.json` optimized for Vercel's build process
+   - Ensures JSON imports work correctly
+
+4. **Removed problematic files** - Deleted the old `api/serverless.ts` and `api/index.js`
 
 ## How to Deploy
 
