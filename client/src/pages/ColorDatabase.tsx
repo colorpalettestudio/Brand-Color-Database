@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import ColorFilters from "@/components/ColorFilters";
 import ColorGrid from "@/components/ColorGrid";
 import ThemeToggle from "@/components/ThemeToggle";
+import Footer from "@/components/Footer";
 import { Palette } from "lucide-react";
 import type { Color, HueFilter, KeywordFilter } from "@shared/schema";
 import { hexToHsl } from "@shared/schema";
@@ -309,34 +310,29 @@ export default function ColorDatabase() {
   }, [allColors, debouncedSearch, selectedHue, selectedKeyword, sortBy]);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Header */}
-      <header className="border-b border-border bg-background">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="text-2xl">
-              🎨
-            </div>
-            <div>
-              <h1 className="text-lg sm:text-2xl font-bold text-foreground leading-tight" data-testid="text-app-title">
-                The Ultimate Brand Color Database
-              </h1>
-              <p className="text-sm text-muted-foreground hidden sm:block">
-                Discover and copy 600+ curated brand colors
-              </p>
+      <header className="border-b border-border bg-background relative">
+        <div className="absolute top-4 right-4">
+          <ThemeToggle />
+        </div>
+        
+        <div className="container mx-auto px-4 py-12 sm:py-16 text-center">
+          <div className="inline-block mb-6">
+            <div className="bg-muted px-4 py-2 rounded-md">
+              <span className="text-xs sm:text-sm font-medium tracking-wide uppercase text-foreground">
+                Free, Instant & No Sign-Up
+              </span>
             </div>
           </div>
           
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex items-center gap-2 text-sm text-muted-foreground">
-              <span data-testid="text-total-colors">
-                {filteredColors.length} colors
-              </span>
-              <span className="text-border">•</span>
-              <span>Click any color to copy</span>
-            </div>
-            <ThemeToggle />
-          </div>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight" data-testid="text-app-title">
+            Brand Color Database
+          </h1>
+          
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Discover 600+ curated brand colors for your design projects. Search by name, filter by hue and style, then click any color to instantly copy its hex code.
+          </p>
         </div>
       </header>
 
@@ -355,7 +351,7 @@ export default function ColorDatabase() {
       </div>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4">
+      <main className="container mx-auto px-4 flex-1">
         <ColorGrid 
           colors={filteredColors} 
           isLoading={isLoading}
@@ -364,6 +360,8 @@ export default function ColorDatabase() {
         />
       </main>
 
+      {/* Footer */}
+      <Footer appName="Brand Color Database" />
     </div>
   );
 }
